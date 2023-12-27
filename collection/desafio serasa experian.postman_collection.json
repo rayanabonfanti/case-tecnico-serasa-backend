@@ -1,0 +1,421 @@
+{
+	"info": {
+		"_postman_id": "0198330f-063a-4471-9766-63c6e50596f6",
+		"name": "desafio serasa experian",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "21117286"
+	},
+	"item": [
+		{
+			"name": "deletar",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgyMTJ9.p2eC7xju1fuxUvx396tZay_OCNwRpCdkGXhQdCt9kkw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/deletar?id=d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"deletar"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MTMxNDZ9.Kd5ZM20SO2j8AXQFneWbUcil1Yw_0t_xHuuPuUUaHik",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"usuariouser1\",\n    \"idade\": 24,\n    \"telefone\": \"19982780675\",\n    \"cep\": \"13035070\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/atualizar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"atualizar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "atualizar admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgyOTJ9.wLsgEaAZTXSDfiS320R0mQzuEnAcB6lyV6htipQasbk",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nome\": \"usuariouser1\",\n    \"idade\": 24,\n    \"telefone\": \"19982780675\",\n    \"cep\": \"13035070\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/atualizar?id=d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"atualizar"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register user",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2NDQ2NjR9.w0UQNTqa-KCdUC0CDWh6k_61D4eL72o6Z-qGTm3_NKY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"login\": \"usuariouser2\",\n  \"password\": \"usuariouser2\", \n  \"role\": \"USER\",\n  \"nome\": \"usuariouser2\",\n  \"idade\": 24,\n  \"telefone\": \"19982780675\",\n  \"score\": 645,\n  \"cep\": \"13035070\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/salvar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"salvar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register admin",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgwNjJ9.DQm2k0E0nnaYq7dPydUjy8zg4kD-KaJUkl1KkLHC3D0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"login\": \"usuarioadmin2\",\n  \"password\": \"usuarioadmin2\", \n  \"role\": \"ADMIN\",\n  \"nome\": \"usuarioadmin2\",\n  \"idade\": 30,\n  \"telefone\": \"11982780675\",\n  \"score\": 745,\n  \"cep\": \"13035070\"\n}\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/user/salvar",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"salvar"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "healthcheck",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjcyMTF9.tEogWbj91pT0XzTCTsiDNKTb-ymycCv6kQnO_qUfC8k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/healthcheck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "filtro",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2NDQ2NjR9.w0UQNTqa-KCdUC0CDWh6k_61D4eL72o6Z-qGTm3_NKY",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/pessoasPaginadas?page=0&size=10&sortField=nome&sortDirection=ASC&nome=usuariouser2&idade=24&cep=13035070",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"pessoasPaginadas"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "10"
+						},
+						{
+							"key": "sortField",
+							"value": "nome"
+						},
+						{
+							"key": "sortDirection",
+							"value": "ASC"
+						},
+						{
+							"key": "nome",
+							"value": "usuariouser2"
+						},
+						{
+							"key": "idade",
+							"value": "24"
+						},
+						{
+							"key": "cep",
+							"value": "13035070"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "score",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgyMTJ9.p2eC7xju1fuxUvx396tZay_OCNwRpCdkGXhQdCt9kkw",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/user/score?id=56c9d59a-16e4-4cf8-9c2e-8da23775e2f8",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user",
+						"score"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "56c9d59a-16e4-4cf8-9c2e-8da23775e2f8"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login user",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"usuariouser2\",\n    \"password\": \"usuariouser2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login admin",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"usuarioadmin2\",\n    \"password\": \"usuarioadmin2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "login root",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"login\": \"root\",\n    \"password\": \"root\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/auth/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

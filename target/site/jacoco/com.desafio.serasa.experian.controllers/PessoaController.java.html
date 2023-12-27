@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PessoaController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">com.desafio.serasa.experian</a> &gt; <a href="index.source.html" class="el_package">com.desafio.serasa.experian.controllers</a> &gt; <span class="el_source">PessoaController.java</span></div><h1>PessoaController.java</h1><pre class="source lang-java linenums">package com.desafio.serasa.experian.controllers;
+
+import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.pessoa.Pessoa;
+import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
+import com.desafio.serasa.experian.exceptions.CustomException;
+import com.desafio.serasa.experian.interfaces.PessoaService;
+import com.desafio.serasa.experian.repositories.PessoaRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+<span class="nc" id="L22">@Slf4j</span>
+@RestController
+@RequestMapping(&quot;user&quot;)
+@Tag(name = &quot;Pessoas&quot;, description = &quot;API para manipular dados de pessoas do sistema.&quot;)
+@Validated
+public class PessoaController {
+
+    private final PessoaService pessoaService;
+
+<span class="nc" id="L31">    public PessoaController(PessoaService pessoaService) {</span>
+<span class="nc" id="L32">        this.pessoaService = pessoaService;</span>
+<span class="nc" id="L33">    }</span>
+
+    @GetMapping(value = &quot;/healthcheck&quot;)
+    public ResponseEntity&lt;String&gt; healthcheck() {
+<span class="nc" id="L37">        return ResponseEntity.ok().body(&quot;OK&quot;);</span>
+    }
+
+    @PostMapping(&quot;/salvar&quot;)
+    @Operation(summary = &quot;Salva os dados de pessoa.&quot;,
+            description = &quot;Endpoint responsável por salvar os dados de pessoa.&quot;)
+    @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Sucesso.&quot;)
+    @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Não autorizado.&quot;)
+    @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Parâmetro(s) obrigatório(s) foi(foram) informado(s) incorretamente.&quot;)
+    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Pessoa não encontrada.&quot;)
+    @ApiResponse(responseCode = &quot;405&quot;, description = &quot;Requisição mal formatada.&quot;)
+    @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Erro interno.&quot;)
+    @ApiResponse(responseCode = &quot;503&quot;, description = &quot;Serviço Indisponível.&quot;)
+    public ResponseEntity&lt;Pessoa&gt; salvar(@Valid @RequestBody SalvarPessoaRequestDto data, BindingResult bindingResult) throws CustomException {
+<span class="nc" id="L51">        return ResponseEntity.ok().body(pessoaService.salvar(data));</span>
+    }
+
+    @DeleteMapping(&quot;/deletar&quot;)
+    @Operation(summary = &quot;Deletar os dados logicamente de pessoa.&quot;,
+            description = &quot;Endpoint responsável por deletar os dados logicamente de pessoa.&quot;)
+    @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Sucesso.&quot;)
+    @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Não autorizado.&quot;)
+    @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Parâmetro(s) obrigatório(s) foi(foram) informado(s) incorretamente.&quot;)
+    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Pessoa não encontrada.&quot;)
+    @ApiResponse(responseCode = &quot;405&quot;, description = &quot;Requisição mal formatada.&quot;)
+    @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Erro interno.&quot;)
+    @ApiResponse(responseCode = &quot;503&quot;, description = &quot;Serviço Indisponível.&quot;)
+    public ResponseEntity&lt;String&gt; delete(@RequestParam String id) throws CustomException {
+<span class="nc" id="L65">        return ResponseEntity.ok().body(pessoaService.deletar(id));</span>
+    }
+
+    @PatchMapping(&quot;/atualizar&quot;)
+    @Operation(summary = &quot;Atualizar os dados de pessoa.&quot;,
+            description = &quot;Endpoint responsável por atualizar os dados de pessoa.&quot;)
+    @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Sucesso.&quot;)
+    @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Não autorizado.&quot;)
+    @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Parâmetro(s) obrigatório(s) foi(foram) informado(s) incorretamente.&quot;)
+    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Pessoa não encontrada.&quot;)
+    @ApiResponse(responseCode = &quot;405&quot;, description = &quot;Requisição mal formatada.&quot;)
+    @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Erro interno.&quot;)
+    @ApiResponse(responseCode = &quot;503&quot;, description = &quot;Serviço Indisponível.&quot;)
+    public ResponseEntity&lt;Pessoa&gt; update(@RequestParam String id, @Valid @RequestBody AtualizarPessoaRequestDto data) throws CustomException {
+<span class="nc" id="L79">        return ResponseEntity.ok().body(pessoaService.update(id, data));</span>
+    }
+
+    @GetMapping(&quot;/score&quot;)
+    @Operation(summary = &quot;Recuperar informação de score de uma pessoa.&quot;,
+            description = &quot;Endpoint responsável por recuperar informação de score de uma pessoa.&quot;)
+    @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Sucesso.&quot;)
+    @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Não autorizado.&quot;)
+    @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Parâmetro(s) obrigatório(s) foi(foram) informado(s) incorretamente.&quot;)
+    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Pessoa não encontrada.&quot;)
+    @ApiResponse(responseCode = &quot;405&quot;, description = &quot;Requisição mal formatada.&quot;)
+    @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Erro interno.&quot;)
+    @ApiResponse(responseCode = &quot;503&quot;, description = &quot;Serviço Indisponível.&quot;)
+    public ResponseEntity&lt;String&gt; getScoreStatus(@RequestParam String id) throws CustomException {
+<span class="nc" id="L93">        return ResponseEntity.ok().body(pessoaService.getScoreStatus(id));</span>
+    }
+
+    @GetMapping(&quot;/pessoasPaginadas&quot;)
+    @Operation(summary = &quot;Recuperar dados de pessoas paginadas filtrando e ordenando por nome, idade ou cep.&quot;,
+            description = &quot;Endpoint responsável por recuperar dados de pessoas paginadas filtrando e ordenando por nome, idade ou cep.&quot;)
+    @ApiResponse(responseCode = &quot;200&quot;, description = &quot;Sucesso.&quot;)
+    @ApiResponse(responseCode = &quot;401&quot;, description = &quot;Não autorizado.&quot;)
+    @ApiResponse(responseCode = &quot;400&quot;, description = &quot;Parâmetro(s) obrigatório(s) foi(foram) informado(s) incorretamente.&quot;)
+    @ApiResponse(responseCode = &quot;404&quot;, description = &quot;Pessoa não encontrada.&quot;)
+    @ApiResponse(responseCode = &quot;405&quot;, description = &quot;Requisição mal formatada.&quot;)
+    @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Erro interno.&quot;)
+    @ApiResponse(responseCode = &quot;503&quot;, description = &quot;Serviço Indisponível.&quot;)
+    public ResponseEntity&lt;Page&lt;Pessoa&gt;&gt; getPagedPeople(
+            @RequestParam(name = &quot;page&quot;, defaultValue = &quot;0&quot;) Integer page,
+            @RequestParam(name = &quot;size&quot;, defaultValue = &quot;10&quot;) Integer size,
+            @RequestParam(name = &quot;sortField&quot;, defaultValue = &quot;nome&quot;) String sortField,
+            @RequestParam(name = &quot;sortDirection&quot;, defaultValue = &quot;ASC&quot;) String sortDirection,
+            @RequestParam(name = &quot;nome&quot;, required = false) String nome,
+            @RequestParam(name = &quot;idade&quot;, required = false) Integer idade,
+            @RequestParam(name = &quot;cep&quot;, required = false) String cep) {
+<span class="nc" id="L114">        return ResponseEntity.ok().body(pessoaService.getPagedPeople(page, size, sortField, sortDirection, nome, idade, cep));</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>
