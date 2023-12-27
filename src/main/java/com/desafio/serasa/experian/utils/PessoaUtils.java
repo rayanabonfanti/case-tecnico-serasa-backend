@@ -6,13 +6,12 @@ import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.exceptions.CustomException;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 
+@NoArgsConstructor
 public class PessoaUtils {
-
-    private PessoaUtils() {
-    }
 
     public static EnderecoResponseApiDto obterEnderecoPorCEP(String cep) {
         String url = String.format("https://viacep.com.br/ws/%s/json/", cep);

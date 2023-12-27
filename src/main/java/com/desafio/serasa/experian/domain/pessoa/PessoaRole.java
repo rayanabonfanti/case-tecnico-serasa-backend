@@ -7,7 +7,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum PessoaRole {
-    ROOT("root"),
     ADMIN("admin"),
     USER("user");
 

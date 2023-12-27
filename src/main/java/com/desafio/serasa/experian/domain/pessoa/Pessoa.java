@@ -60,11 +60,7 @@ public class Pessoa implements UserDetails {
     @JsonIgnore
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (this.role == PessoaRole.ROOT)
-            return List.of(new SimpleGrantedAuthority("ROLE_ROOT"),
-                    new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority(ROLE_USER));
-        else if (this.role == PessoaRole.ADMIN)
+        if (this.role == PessoaRole.ADMIN)
             return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
                     new SimpleGrantedAuthority(ROLE_USER));
         else return List.of(new SimpleGrantedAuthority(ROLE_USER));

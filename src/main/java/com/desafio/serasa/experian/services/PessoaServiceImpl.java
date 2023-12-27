@@ -4,6 +4,7 @@ import com.desafio.serasa.experian.domain.endereco.Endereco;
 import com.desafio.serasa.experian.domain.endereco.EnderecoResponseApiDto;
 import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
+import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
 import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.interfaces.PessoaService;
@@ -96,17 +97,16 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     @Override
-    public Page<Pessoa> getPagedPeople(
-            Integer page, Integer size, String sortField, String sortDirection,
-            String nome, Integer idade, String cep) {
+    public Page<Pessoa> getPagedPeople(PessoaFilterDTO pessoaFilterDTO) {
 
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortField));
+        Pageable pageable = PageRequest.of(pessoaFilterDTO.getPage(), pessoaFilterDTO.getSize(),
+                Sort.by(Sort.Direction.fromString(pessoaFilterDTO.getSortDirection()), pessoaFilterDTO.getSortField()));
 
         Pessoa examplePessoa = new Pessoa();
-        examplePessoa.setNome(nome);
-        examplePessoa.setIdade(idade);
+        examplePessoa.setNome(pessoaFilterDTO.getNome());
+        examplePessoa.setIdade(pessoaFilterDTO.getIdade());
         Endereco exampleEndereco = new Endereco();
-        exampleEndereco.setCep(cep);
+        exampleEndereco.setCep(pessoaFilterDTO.getCep());
         examplePessoa.setEndereco(exampleEndereco);
 
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()

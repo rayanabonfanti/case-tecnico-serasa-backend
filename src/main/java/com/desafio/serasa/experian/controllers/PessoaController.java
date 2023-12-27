@@ -2,6 +2,7 @@ package com.desafio.serasa.experian.controllers;
 
 import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
+import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
 import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.interfaces.PessoaService;
@@ -100,15 +101,8 @@ public class PessoaController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<Page<Pessoa>> getPagedPeople(
-            @RequestParam(name = "page", defaultValue = "0") Integer page,
-            @RequestParam(name = "size", defaultValue = "10") Integer size,
-            @RequestParam(name = "sortField", defaultValue = "nome") String sortField,
-            @RequestParam(name = "sortDirection", defaultValue = "ASC") String sortDirection,
-            @RequestParam(name = "nome", required = false) String nome,
-            @RequestParam(name = "idade", required = false) Integer idade,
-            @RequestParam(name = "cep", required = false) String cep) {
-        return ResponseEntity.ok().body(pessoaService.getPagedPeople(page, size, sortField, sortDirection, nome, idade, cep));
+    public ResponseEntity<Page<Pessoa>> getPagedPeople(@Valid @ModelAttribute PessoaFilterDTO pessoaFilterDTO) {
+        return ResponseEntity.ok().body(pessoaService.getPagedPeople(pessoaFilterDTO));
     }
 
 }

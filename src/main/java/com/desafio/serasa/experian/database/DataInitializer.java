@@ -17,8 +17,8 @@ public class DataInitializer implements CommandLineRunner {
 
     private final PessoaRepository pessoaRepository;
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    @Value("${password.root}")
-    private String senhaRoot;
+    @Value("${password.admin}")
+    private String senhaAdmin;
 
     public DataInitializer(PessoaRepository pessoaRepository) {
         this.pessoaRepository = pessoaRepository;
@@ -35,10 +35,10 @@ public class DataInitializer implements CommandLineRunner {
                 .build();
 
         Pessoa pessoaRoot = Pessoa.builder()
-                .login("root")
-                .password(passwordEncoder.encode(senhaRoot))
-                .role(PessoaRole.ROOT)
-                .nome("root")
+                .login("admin")
+                .password(passwordEncoder.encode(senhaAdmin))
+                .role(PessoaRole.ADMIN)
+                .nome("admin")
                 .idade(20)
                 .telefone("11999780675")
                 .score(520)
@@ -53,6 +53,6 @@ public class DataInitializer implements CommandLineRunner {
 
         pessoaRepository.save(pessoaRoot);
 
-        log.info("***ROOT**** " + pessoaRoot);
+        log.info("***ADMIN**** " + pessoaRoot);
     }
 }

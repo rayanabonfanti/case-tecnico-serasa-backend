@@ -4,6 +4,7 @@ import com.desafio.serasa.experian.domain.autenticador.LoginRequestDto;
 import com.desafio.serasa.experian.domain.autenticador.LoginResponseDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.security.TokenService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -47,7 +48,7 @@ public class AuthenticationController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto data) {
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto data) throws JsonProcessingException {
         Authentication usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
         Authentication auth = this.authenticationManager.authenticate(usernamePassword);
         return ResponseEntity.ok().body(new LoginResponseDto(tokenService.generateToken((Pessoa) auth.getPrincipal())));

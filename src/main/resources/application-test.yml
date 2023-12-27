@@ -27,4 +27,4 @@ server:
       charset: "@project.build.sourceEncoding@"
 
 api.security.token.secret: ${my-secret-key}
-password.root: ${password-root}
+password.admin: ${password-admin}
