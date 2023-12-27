@@ -110,7 +110,8 @@ public class PessoaServiceImpl implements PessoaService {
         examplePessoa.setEndereco(exampleEndereco);
 
         ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
+                .withIgnorePaths("deleted");
         Example<Pessoa> example = Example.of(examplePessoa, matcher);
 
         return pessoaRepository.findAll(example, pageable);
