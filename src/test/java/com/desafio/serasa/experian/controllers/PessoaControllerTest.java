@@ -58,7 +58,7 @@ public class PessoaControllerTest {
 
     @Test
     void testDelete() throws CustomException {
-        String id = "1";
+        Long id = 1L;
         when(pessoaService.deletar(eq(id))).thenReturn("Deleted");
 
         ResponseEntity<String> responseEntity = pessoaController.delete(id);
@@ -69,7 +69,7 @@ public class PessoaControllerTest {
 
     @Test
     void testUpdate() throws CustomException {
-        String id = "1";
+        Long id = 1L;
         AtualizarPessoaRequestDto atualizarPessoaRequestDto = new AtualizarPessoaRequestDto();
         Pessoa pessoa = new Pessoa();
         when(pessoaService.update(eq(id), any(AtualizarPessoaRequestDto.class))).thenReturn(pessoa);
@@ -82,7 +82,7 @@ public class PessoaControllerTest {
 
     @Test
     void testGetScoreStatus() throws CustomException {
-        String id = "1";
+        Long id = 1L;
         when(pessoaService.getScoreStatus(eq(id))).thenReturn("ScoreStatus");
 
         ResponseEntity<String> responseEntity = pessoaController.getScoreStatus(id);

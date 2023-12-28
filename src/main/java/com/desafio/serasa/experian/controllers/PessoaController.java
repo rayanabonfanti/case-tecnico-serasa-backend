@@ -59,7 +59,7 @@ public class PessoaController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<String> delete(@RequestParam String id) throws CustomException {
+    public ResponseEntity<String> delete(@RequestParam Long id) throws CustomException {
         return ResponseEntity.ok().body(pessoaService.deletar(id));
     }
 
@@ -73,7 +73,7 @@ public class PessoaController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<Pessoa> update(@RequestParam String id, @Valid @RequestBody AtualizarPessoaRequestDto data) throws CustomException {
+    public ResponseEntity<Pessoa> update(@RequestParam Long id, @Valid @RequestBody AtualizarPessoaRequestDto data) throws CustomException {
         return ResponseEntity.ok().body(pessoaService.update(id, data));
     }
 
@@ -87,7 +87,7 @@ public class PessoaController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<String> getScoreStatus(@RequestParam String id) throws CustomException {
+    public ResponseEntity<String> getScoreStatus(@RequestParam Long id) throws CustomException {
         return ResponseEntity.ok().body(pessoaService.getScoreStatus(id));
     }
 

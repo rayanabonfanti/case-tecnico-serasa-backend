@@ -15,11 +15,11 @@ public interface PessoaService {
 
     Pessoa salvar(@Valid SalvarPessoaRequestDto data) throws CustomException;
 
-    String deletar(String id) throws CustomException;
+    String deletar(Long id) throws CustomException;
 
-    Pessoa update(String id, @Valid AtualizarPessoaRequestDto data) throws CustomException;
+    Pessoa update(Long id, @Valid AtualizarPessoaRequestDto data) throws CustomException;
 
-    String getScoreStatus(@RequestParam String id) throws CustomException;
+    String getScoreStatus(Long id) throws CustomException;
 
-    Page<Pessoa> getPagedPeople(PessoaFilterDTO pessoaFilterDTO);
+    Page<Pessoa> getPagedPeople(@Valid PessoaFilterDTO pessoaFilterDTO);
 }

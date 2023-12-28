@@ -52,13 +52,6 @@ class PessoaUtilsTest {
     }
 
     @Test
-    void testRetornarExcecao() {
-        CustomException exception = assertThrows(CustomException.class, () -> pessoaUtils.retornarExcecao("Mensagem de erro"));
-        assertEquals(HttpStatus.BAD_REQUEST.value(), exception.getErrorCode());
-        assertEquals("Mensagem de erro", exception.getMessage());
-    }
-
-    @Test
     void testCriarPessoa() {
         SalvarPessoaRequestDto data = new SalvarPessoaRequestDto();
         data.setLogin("teste");

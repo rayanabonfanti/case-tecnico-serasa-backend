@@ -13,6 +13,7 @@ import com.desafio.serasa.experian.utils.PessoaUtils;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,26 +35,22 @@ public class PessoaServiceImpl implements PessoaService {
     @Override
     public Pessoa salvar(@Valid SalvarPessoaRequestDto data) throws CustomException {
         if (Optional.ofNullable(this.pessoaRepository.findByLogin(data.getLogin())).isPresent())
-            PessoaUtils.retornarExcecao("Objeto já existente.");
+            throw new CustomException(HttpStatus.BAD_REQUEST.value(), "Objeto já existente.");
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
         EnderecoResponseApiDto enderecoAPI = PessoaUtils.obterEnderecoPorCEP(data.getCep());
 
-        if (Objects.isNull(enderecoAPI))
-            PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);
-
         Pessoa newPessoa = PessoaUtils.criarPessoa(data, enderecoAPI, encryptedPassword);
-        if (Objects.isNull(newPessoa)) {
-            PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);
-        } else {
+        if (!Objects.isNull(newPessoa)) {
             this.pessoaRepository.save(newPessoa);
             return newPessoa;
         }
-        return null;
+
+        throw new CustomException(HttpStatus.BAD_REQUEST.value(), OBJETO_NOT_FOUND);
     }
 
     @Override
-    public String deletar(String id) throws CustomException {
+    public String deletar(Long id) throws CustomException {
         Optional<Pessoa> findPessoa = pessoaRepository.findById(id);
 
         if (findPessoa.isPresent()) {
@@ -64,12 +61,11 @@ public class PessoaServiceImpl implements PessoaService {
             return "Pessoa excluída logicamente com sucesso";
         }
 
-        PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);
-        return null;
+        throw new CustomException(HttpStatus.BAD_REQUEST.value(), OBJETO_NOT_FOUND);
     }
 
     @Override
-    public Pessoa update(String id, @Valid AtualizarPessoaRequestDto data) throws CustomException {
+    public Pessoa update(Long id, @Valid AtualizarPessoaRequestDto data) throws CustomException {
         Optional<Pessoa> findPessoa = pessoaRepository.findById(id);
 
         if (findPessoa.isPresent()) {
@@ -79,25 +75,23 @@ public class PessoaServiceImpl implements PessoaService {
             return pessoa;
         }
 
-        PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);
-        return null;
+        throw new CustomException(HttpStatus.BAD_REQUEST.value(), OBJETO_NOT_FOUND);
     }
 
     @Override
-    public String getScoreStatus(@RequestParam String id) throws CustomException {
+    public String getScoreStatus(Long id) throws CustomException {
         Optional<Pessoa> pessoaOptional = pessoaRepository.findById(id);
 
         if (pessoaOptional.isPresent()) {
             Pessoa pessoa = pessoaOptional.get();
             return PessoaUtils.obterDescricaoScore(pessoa.getScore());
-        } else {
-            PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);
         }
-        return null;
+
+        throw new CustomException(HttpStatus.BAD_REQUEST.value(), OBJETO_NOT_FOUND);
     }
 
     @Override
-    public Page<Pessoa> getPagedPeople(PessoaFilterDTO pessoaFilterDTO) {
+    public Page<Pessoa> getPagedPeople(@Valid PessoaFilterDTO pessoaFilterDTO) {
 
         Pageable pageable = PageRequest.of(pessoaFilterDTO.getPage(), pessoaFilterDTO.getSize(),
                 Sort.by(Sort.Direction.fromString(pessoaFilterDTO.getSortDirection()), pessoaFilterDTO.getSortField()));

@@ -33,10 +33,6 @@ public class PessoaUtils {
         }
     }
 
-    public static void retornarExcecao(String message) throws CustomException {
-        throw new CustomException(HttpStatus.BAD_REQUEST.value(), message);
-    }
-
     public static Pessoa criarPessoa(SalvarPessoaRequestDto data, EnderecoResponseApiDto enderecoAPI, String encryptedPassword) {
         Endereco newEndereco = Endereco.builder()
                 .cep(enderecoAPI.getCep())
