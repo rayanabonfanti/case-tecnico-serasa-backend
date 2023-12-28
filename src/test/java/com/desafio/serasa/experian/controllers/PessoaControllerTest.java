@@ -1,56 +1,113 @@
-//package com.desafio.serasa.experian.controllers;
-//
-//import com.desafio.serasa.experian.domain.user.RegisterDTO;
-//import com.desafio.serasa.experian.domain.user.Pessoa;
-//import com.desafio.serasa.experian.domain.user.UserRole;
-//import com.desafio.serasa.experian.repositories.UserRepository;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.Mockito.*;
-//
-//@ExtendWith(MockitoExtension.class)
-//public class PessoaControllerTest {
-//
-//    @Mock
-//    private UserRepository userRepository;
-//
-//    @InjectMocks
-//    private UserController userController;
-//
-//    @Test
-//    public void healthcheck_ReturnsOk() {
-//        ResponseEntity response = userController.healthcheck();
-//
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        assertEquals("OK", response.getBody());
-//    }
-//
-//    @Test
-//    public void register_NewUser_ReturnsOk() {
-//        RegisterDTO registerDTO = new RegisterDTO("newuser", "password", UserRole.USER);
-//        when(userRepository.findByLogin(registerDTO.login())).thenReturn(null);
-//
-//        ResponseEntity response = userController.register(registerDTO);
-//
-//        assertEquals(HttpStatus.OK, response.getStatusCode());
-//        verify(userRepository, times(1)).save(any(Pessoa.class));
-//    }
-//
-//    @Test
-//    public void register_ExistingUser_ReturnsBadRequest() {
-//        RegisterDTO registerDTO = new RegisterDTO("existinguser", "password", UserRole.USER);
-//        when(userRepository.findByLogin(registerDTO.login())).thenReturn(new Pessoa());
-//
-//        ResponseEntity response = userController.register(registerDTO);
-//
-//        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
-//        verify(userRepository, never()).save(any(Pessoa.class));
-//    }
-//}
+package com.desafio.serasa.experian.controllers;
+
+import com.desafio.serasa.experian.controllers.PessoaController;
+import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.pessoa.Pessoa;
+import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
+import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
+import com.desafio.serasa.experian.exceptions.CustomException;
+import com.desafio.serasa.experian.interfaces.PessoaService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+
+import java.util.Collections;
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.*;
+
+public class PessoaControllerTest {
+
+    @InjectMocks
+    private PessoaController pessoaController;
+
+    @Mock
+    private PessoaService pessoaService;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @Test
+    void healthcheck() {
+        ResponseEntity<String> response = pessoaController.healthcheck();
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals("OK", response.getBody());
+    }
+
+    @Test
+    void testSalvar() throws CustomException {
+        SalvarPessoaRequestDto salvarPessoaRequestDto = new SalvarPessoaRequestDto();
+        Pessoa pessoa = new Pessoa();
+        when(pessoaService.salvar(any(SalvarPessoaRequestDto.class))).thenReturn(pessoa);
+
+        ResponseEntity<Pessoa> responseEntity = pessoaController.salvar(salvarPessoaRequestDto, null);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(pessoa, responseEntity.getBody());
+    }
+
+    @Test
+    void testDelete() throws CustomException {
+        String id = "1";
+        when(pessoaService.deletar(eq(id))).thenReturn("Deleted");
+
+        ResponseEntity<String> responseEntity = pessoaController.delete(id);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("Deleted", responseEntity.getBody());
+    }
+
+    @Test
+    void testUpdate() throws CustomException {
+        String id = "1";
+        AtualizarPessoaRequestDto atualizarPessoaRequestDto = new AtualizarPessoaRequestDto();
+        Pessoa pessoa = new Pessoa();
+        when(pessoaService.update(eq(id), any(AtualizarPessoaRequestDto.class))).thenReturn(pessoa);
+
+        ResponseEntity<Pessoa> responseEntity = pessoaController.update(id, atualizarPessoaRequestDto);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(pessoa, responseEntity.getBody());
+    }
+
+    @Test
+    void testGetScoreStatus() throws CustomException {
+        String id = "1";
+        when(pessoaService.getScoreStatus(eq(id))).thenReturn("ScoreStatus");
+
+        ResponseEntity<String> responseEntity = pessoaController.getScoreStatus(id);
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals("ScoreStatus", responseEntity.getBody());
+    }
+
+    @Test
+    void testGetPagedPeople() {
+        PessoaFilterDTO pessoaFilterDTO = new PessoaFilterDTO();
+
+        // Criar uma instância de PageImpl para simular a resposta do serviço
+        Page<Pessoa> mockedPage = new PageImpl<>(Collections.singletonList(new Pessoa()));
+
+        // Configurar o comportamento esperado do serviço
+        when(pessoaService.getPagedPeople(any(PessoaFilterDTO.class))).thenReturn(mockedPage);
+
+        // Executar o método que será testado
+        ResponseEntity<Page<Pessoa>> responseEntity = pessoaController.getPagedPeople(pessoaFilterDTO);
+
+        // Verificar se o resultado está de acordo com o esperado
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(mockedPage, responseEntity.getBody());
+
+        verify(pessoaService, times(1)).getPagedPeople(eq(pessoaFilterDTO));
+    }
+}

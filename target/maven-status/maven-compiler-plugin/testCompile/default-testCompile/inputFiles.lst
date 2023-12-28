@@ -1,7 +1,10 @@
-/Users/rayanaribeirobonfanti/Downloads/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/exceptions/ErrorResponseTest.java
-/Users/rayanaribeirobonfanti/Downloads/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/services/AuthorizationServiceTest.java
-/Users/rayanaribeirobonfanti/Downloads/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/FraudSystemApplicationTests.java
-/Users/rayanaribeirobonfanti/Downloads/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/exceptions/CustomExceptionTest.java
-/Users/rayanaribeirobonfanti/Downloads/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/exceptions/GlobalExpcetionHandlerTest.java
-/Users/rayanaribeirobonfanti/Downloads/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/controllers/PessoaControllerTest.java
-/Users/rayanaribeirobonfanti/Downloads/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/controllers/AuthenticationControllerTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/exceptions/CustomExceptionTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/database/DataInitializerTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/controllers/PessoaControllerTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/controllers/AuthenticationControllerTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/services/AuthorizationServiceTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/services/PessoaServiceImplTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/exceptions/GlobalExpcetionHandlerTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/exceptions/ErrorResponseTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/utils/PessoaUtilsTest.java
+/Users/rayanaribeirobonfanti/Documents/projects github/desafio-serasa-experian/src/test/java/com/desafio/serasa/experian/FraudSystemApplicationTests.java

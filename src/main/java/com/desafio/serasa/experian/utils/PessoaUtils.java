@@ -64,13 +64,12 @@ public class PessoaUtils {
                 .build();
     }
 
-    public static void atualizarPessoaComDados(Pessoa pessoa, AtualizarPessoaRequestDto data) throws CustomException {
+    public static void atualizarPessoaComDados(Pessoa pessoa, AtualizarPessoaRequestDto data) {
         pessoa.setNome(data.getNome());
         pessoa.setIdade(data.getIdade());
         pessoa.setTelefone(data.getTelefone());
 
         EnderecoResponseApiDto enderecoAPI = obterEnderecoPorCEP(data.getCep());
-        if (enderecoAPI != null) {
             Endereco newEndereco = Endereco.builder()
                     .cep(enderecoAPI.getCep())
                     .estado(enderecoAPI.getUf())
@@ -80,9 +79,6 @@ public class PessoaUtils {
                     .build();
 
             pessoa.setEndereco(newEndereco);
-        } else {
-            throw new CustomException(HttpStatus.BAD_REQUEST.value(), "Objeto não encontrado.");
-        }
     }
 
 }

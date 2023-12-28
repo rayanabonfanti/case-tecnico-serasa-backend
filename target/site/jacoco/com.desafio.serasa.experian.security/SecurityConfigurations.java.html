@@ -20,8 +20,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 <span class="nc" id="L20">@AllArgsConstructor</span>
 public class SecurityConfigurations {
 
-    private SecurityFilter securityFilter;
     private static final String URL_USER = &quot;/user/**&quot;;
+    private SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -29,15 +29,15 @@ public class SecurityConfigurations {
 <span class="nc" id="L29">                .csrf(AbstractHttpConfigurer::disable)</span>
 <span class="nc" id="L30">                .sessionManagement(session -&gt; session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))</span>
 <span class="nc" id="L31">                .authorizeHttpRequests(authorize -&gt; authorize</span>
-<span class="nc" id="L32">                                .requestMatchers(</span>
-                                        &quot;/swagger-resources&quot;,
-                                        &quot;/swagger-resources/**&quot;,
-                                        &quot;/swagger-ui/**&quot;,
-<span class="nc" id="L36">                                        &quot;/v3/api-docs/**&quot;).permitAll()</span>
-<span class="nc" id="L37">                                .requestMatchers(&quot;/auth/**&quot;).permitAll()</span>
-<span class="nc" id="L38">                                .requestMatchers(URL_USER,&quot;/auth/**&quot;).hasRole(&quot;ROOT&quot;)</span>
-<span class="nc" id="L39">                                .requestMatchers(HttpMethod.GET, URL_USER).hasRole(&quot;USER&quot;)</span>
-<span class="nc" id="L40">                                .requestMatchers(URL_USER).hasRole(&quot;ADMIN&quot;)</span>
+<span class="nc" id="L32">                        .requestMatchers(</span>
+                                &quot;/swagger-resources&quot;,
+                                &quot;/swagger-resources/**&quot;,
+                                &quot;/swagger-ui/**&quot;,
+<span class="nc" id="L36">                                &quot;/v3/api-docs/**&quot;).permitAll()</span>
+<span class="nc" id="L37">                        .requestMatchers(&quot;/auth/**&quot;).permitAll()</span>
+<span class="nc" id="L38">                        .requestMatchers(&quot;/user/healthcheck&quot;).permitAll()</span>
+<span class="nc" id="L39">                        .requestMatchers(HttpMethod.GET, URL_USER).hasRole(&quot;USER&quot;)</span>
+<span class="nc" id="L40">                        .requestMatchers(URL_USER).hasRole(&quot;ADMIN&quot;)</span>
 <span class="nc" id="L41">                        .anyRequest().authenticated()</span>
                 )
 <span class="nc" id="L43">                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)</span>

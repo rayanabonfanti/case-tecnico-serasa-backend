@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString
 @AllArgsConstructor
 public class ErrorResponse {
     private final int errorCode;

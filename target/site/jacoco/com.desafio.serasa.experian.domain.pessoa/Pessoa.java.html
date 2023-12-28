@@ -3,41 +3,39 @@
 import com.desafio.serasa.experian.domain.endereco.Endereco;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.*;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
-<span class="nc bnc" id="L17" title="All 98 branches missed.">@Data</span>
-<span class="nc" id="L18">@Builder</span>
-<span class="nc" id="L19">@AllArgsConstructor</span>
-<span class="nc" id="L20">@NoArgsConstructor</span>
-<span class="nc" id="L21">@ToString</span>
+<span class="pc bpc" id="L14" title="97 of 98 branches missed.">@Data</span>
+<span class="pc" id="L15">@Builder</span>
+<span class="fc" id="L16">@AllArgsConstructor</span>
+<span class="fc" id="L17">@NoArgsConstructor</span>
+<span class="nc" id="L18">@ToString</span>
 @Entity
 @Table(name = &quot;pessoa&quot;)
 public class Pessoa implements UserDetails {
+    private static final String ROLE_USER = &quot;ROLE_USER&quot;;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-<span class="nc" id="L27">    private Long id;</span>
-<span class="nc" id="L28">    private String login;</span>
-<span class="nc" id="L29">    private String password;</span>
+<span class="nc" id="L25">    private Long id;</span>
+<span class="fc" id="L26">    private String login;</span>
+<span class="fc" id="L27">    private String password;</span>
     @Enumerated(EnumType.STRING)
-<span class="nc" id="L31">    private PessoaRole role;</span>
-<span class="nc" id="L32">    private String nome;</span>
-<span class="nc" id="L33">    private Integer idade;</span>
-<span class="nc" id="L34">    private String telefone;</span>
-<span class="nc" id="L35">    private Integer score;</span>
-<span class="nc" id="L36">    private String scoreDescricao;</span>
+<span class="fc" id="L29">    private PessoaRole role;</span>
+<span class="fc" id="L30">    private String nome;</span>
+<span class="fc" id="L31">    private Integer idade;</span>
+<span class="fc" id="L32">    private String telefone;</span>
+<span class="nc" id="L33">    private Integer score;</span>
+<span class="nc" id="L34">    private String scoreDescricao;</span>
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = &quot;endereco_id&quot;, referencedColumnName = &quot;id&quot;)
-<span class="nc" id="L39">    private transient Endereco endereco;</span>
-<span class="nc" id="L40">    private boolean deleted;</span>
+<span class="fc" id="L37">    private transient Endereco endereco;</span>
+<span class="nc" id="L38">    private boolean deleted;</span>
     @JsonIgnore
     private boolean enabled;
     @JsonIgnore
@@ -47,50 +45,45 @@ public class Pessoa implements UserDetails {
     @JsonIgnore
     private boolean credentialsNonExpired;
 
-    private static final String ROLE_USER = &quot;ROLE_USER&quot;;
+<span class="nc" id="L48">    public Pessoa(String login, String password, PessoaRole role) {</span>
+<span class="nc" id="L49">        this.login = login;</span>
+<span class="nc" id="L50">        this.password = password;</span>
+<span class="nc" id="L51">        this.role = role;</span>
+<span class="nc" id="L52">    }</span>
 
     @JsonIgnore
     @Override
     public String getUsername() {
-<span class="nc" id="L55">        return login;</span>
+<span class="fc" id="L57">        return login;</span>
     }
-<span class="nc" id="L57">    public Pessoa(String login, String password, PessoaRole role) {</span>
-<span class="nc" id="L58">        this.login = login;</span>
-<span class="nc" id="L59">        this.password = password;</span>
-<span class="nc" id="L60">        this.role = role;</span>
-<span class="nc" id="L61">    }</span>
 
     @JsonIgnore
     @Override
     public Collection&lt;? extends GrantedAuthority&gt; getAuthorities() {
-<span class="nc bnc" id="L66" title="All 2 branches missed.">        if (this.role == PessoaRole.ROOT)</span>
-<span class="nc" id="L67">            return List.of(new SimpleGrantedAuthority(&quot;ROLE_ROOT&quot;),</span>
-                    new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;),
+<span class="nc bnc" id="L63" title="All 2 branches missed.">        if (this.role == PessoaRole.ADMIN)</span>
+<span class="nc" id="L64">            return List.of(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;),</span>
                     new SimpleGrantedAuthority(ROLE_USER));
-<span class="nc bnc" id="L70" title="All 2 branches missed.">        else if (this.role == PessoaRole.ADMIN)</span>
-<span class="nc" id="L71">            return List.of(new SimpleGrantedAuthority(&quot;ROLE_ADMIN&quot;),</span>
-                    new SimpleGrantedAuthority(ROLE_USER));
-<span class="nc" id="L73">        else return List.of(new SimpleGrantedAuthority(ROLE_USER));</span>
+<span class="nc" id="L66">        else return List.of(new SimpleGrantedAuthority(ROLE_USER));</span>
     }
 
     @Override
     public boolean isAccountNonExpired() {
-<span class="nc" id="L78">        return true;</span>
+<span class="nc" id="L71">        return true;</span>
     }
 
     @Override
     public boolean isAccountNonLocked() {
-<span class="nc" id="L83">        return true;</span>
+<span class="nc" id="L76">        return true;</span>
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-<span class="nc" id="L88">        return true;</span>
+<span class="nc" id="L81">        return true;</span>
     }
 
     @Override
     public boolean isEnabled() {
-<span class="nc" id="L93">        return true;</span>
+<span class="nc" id="L86">        return true;</span>
     }
 
 }

@@ -146,10 +146,6 @@
 								<exclude>**/interfaces/**</exclude>
 								<exclude>**/repositories/**</exclude>
 								<exclude>**/security/**</exclude>
-
-								<exclude>**/controllers/**</exclude>
-								<exclude>**/services/**</exclude>
-								<exclude>**/utils/**</exclude>
 							</excludes>
 							<rules>
 								<rule>

@@ -4,6 +4,7 @@ import com.desafio.serasa.experian.domain.endereco.Endereco;
 import com.desafio.serasa.experian.domain.endereco.EnderecoResponseApiDto;
 import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
+import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
 import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.interfaces.PessoaService;
@@ -19,17 +20,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Objects;
 import java.util.Optional;
 
-<span class="nc" id="L22">@Slf4j</span>
+<span class="fc" id="L23">@Slf4j</span>
 @Service
 public class PessoaServiceImpl implements PessoaService {
 
+    private static final String OBJETO_NOT_FOUND = &quot;Objeto não encontrado.&quot;;
     private final PessoaRepository pessoaRepository;
 
-    private static final String OBJETO_NOT_FOUND = &quot;Objeto não encontrado.&quot;;
-
-<span class="nc" id="L30">    public PessoaServiceImpl(PessoaRepository pessoaRepository) {</span>
-<span class="nc" id="L31">        this.pessoaRepository = pessoaRepository;</span>
-<span class="nc" id="L32">    }</span>
+<span class="fc" id="L30">    public PessoaServiceImpl(PessoaRepository pessoaRepository) {</span>
+<span class="fc" id="L31">        this.pessoaRepository = pessoaRepository;</span>
+<span class="fc" id="L32">    }</span>
 
     @Override
     public Pessoa salvar(@Valid SalvarPessoaRequestDto data) throws CustomException {
@@ -43,7 +43,7 @@ public class PessoaServiceImpl implements PessoaService {
 <span class="nc" id="L43">            PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);</span>
 
 <span class="nc" id="L45">        Pessoa newPessoa = PessoaUtils.criarPessoa(data, enderecoAPI, encryptedPassword);</span>
-<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (Objects.isNull(newPessoa)){</span>
+<span class="nc bnc" id="L46" title="All 2 branches missed.">        if (Objects.isNull(newPessoa)) {</span>
 <span class="nc" id="L47">            PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);</span>
         } else {
 <span class="nc" id="L49">            this.pessoaRepository.save(newPessoa);</span>
@@ -54,14 +54,14 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public String deletar(String id) throws CustomException {
-<span class="nc" id="L57">        Optional&lt;Pessoa&gt; findPessoa = pessoaRepository.findById(id);</span>
+<span class="fc" id="L57">        Optional&lt;Pessoa&gt; findPessoa = pessoaRepository.findById(id);</span>
 
-<span class="nc bnc" id="L59" title="All 2 branches missed.">        if (findPessoa.isPresent()) {</span>
-<span class="nc" id="L60">            Pessoa pessoa = findPessoa.get();</span>
-<span class="nc" id="L61">            pessoa.setDeleted(true);</span>
-<span class="nc" id="L62">            pessoaRepository.save(pessoa);</span>
+<span class="pc bpc" id="L59" title="1 of 2 branches missed.">        if (findPessoa.isPresent()) {</span>
+<span class="fc" id="L60">            Pessoa pessoa = findPessoa.get();</span>
+<span class="fc" id="L61">            pessoa.setDeleted(true);</span>
+<span class="fc" id="L62">            pessoaRepository.save(pessoa);</span>
 
-<span class="nc" id="L64">            return &quot;Pessoa excluída logicamente com sucesso&quot;;</span>
+<span class="fc" id="L64">            return &quot;Pessoa excluída logicamente com sucesso&quot;;</span>
         }
 
 <span class="nc" id="L67">        PessoaUtils.retornarExcecao(OBJETO_NOT_FOUND);</span>
@@ -97,21 +97,21 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     @Override
-    public Page&lt;Pessoa&gt; getPagedPeople(
-            Integer page, Integer size, String sortField, String sortDirection,
-            String nome, Integer idade, String cep) {
+    public Page&lt;Pessoa&gt; getPagedPeople(PessoaFilterDTO pessoaFilterDTO) {
 
-<span class="nc" id="L104">        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Direction.fromString(sortDirection), sortField));</span>
+<span class="nc" id="L102">        Pageable pageable = PageRequest.of(pessoaFilterDTO.getPage(), pessoaFilterDTO.getSize(),</span>
+<span class="nc" id="L103">                Sort.by(Sort.Direction.fromString(pessoaFilterDTO.getSortDirection()), pessoaFilterDTO.getSortField()));</span>
 
-<span class="nc" id="L106">        Pessoa examplePessoa = new Pessoa();</span>
-<span class="nc" id="L107">        examplePessoa.setNome(nome);</span>
-<span class="nc" id="L108">        examplePessoa.setIdade(idade);</span>
-<span class="nc" id="L109">        Endereco exampleEndereco = new Endereco();</span>
-<span class="nc" id="L110">        exampleEndereco.setCep(cep);</span>
-<span class="nc" id="L111">        examplePessoa.setEndereco(exampleEndereco);</span>
+<span class="nc" id="L105">        Pessoa examplePessoa = new Pessoa();</span>
+<span class="nc" id="L106">        examplePessoa.setNome(pessoaFilterDTO.getNome());</span>
+<span class="nc" id="L107">        examplePessoa.setIdade(pessoaFilterDTO.getIdade());</span>
+<span class="nc" id="L108">        Endereco exampleEndereco = new Endereco();</span>
+<span class="nc" id="L109">        exampleEndereco.setCep(pessoaFilterDTO.getCep());</span>
+<span class="nc" id="L110">        examplePessoa.setEndereco(exampleEndereco);</span>
 
-<span class="nc" id="L113">        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()</span>
-<span class="nc" id="L114">                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);</span>
+<span class="nc" id="L112">        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()</span>
+<span class="nc" id="L113">                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)</span>
+<span class="nc" id="L114">                .withIgnorePaths(&quot;deleted&quot;);</span>
 <span class="nc" id="L115">        Example&lt;Pessoa&gt; example = Example.of(examplePessoa, matcher);</span>
 
 <span class="nc" id="L117">        return pessoaRepository.findAll(example, pageable);</span>

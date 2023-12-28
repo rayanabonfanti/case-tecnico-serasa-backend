@@ -23,9 +23,9 @@ public class TokenService {
     @Value(&quot;${api.security.token.secret}&quot;)
     private String secret;
 
-<span class="nc" id="L26">    public TokenService(StringRedisTemplate redisTemplate) {</span>
-<span class="nc" id="L27">        this.redisTemplate = redisTemplate;</span>
-<span class="nc" id="L28">    }</span>
+<span class="fc" id="L26">    public TokenService(StringRedisTemplate redisTemplate) {</span>
+<span class="fc" id="L27">        this.redisTemplate = redisTemplate;</span>
+<span class="fc" id="L28">    }</span>
 
     public String generateToken(Pessoa pessoa) {
         try {
@@ -36,7 +36,7 @@ public class TokenService {
 <span class="nc" id="L36">                    .withExpiresAt(genExpiration())</span>
 <span class="nc" id="L37">                    .sign(algorithm);</span>
 
-<span class="nc" id="L39">            saveUserInRedis(pessoa,10L * 60);</span>
+<span class="nc" id="L39">            saveUserInRedis(pessoa, 10L * 60);</span>
 
 <span class="nc" id="L41">            return token;</span>
 <span class="nc" id="L42">        } catch (JWTCreationException exception) {</span>

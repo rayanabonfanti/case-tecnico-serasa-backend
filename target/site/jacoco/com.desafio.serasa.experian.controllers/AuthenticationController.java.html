@@ -4,11 +4,12 @@ import com.desafio.serasa.experian.domain.autenticador.LoginRequestDto;
 import com.desafio.serasa.experian.domain.autenticador.LoginResponseDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.security.TokenService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.extern.slf4j.Slf4j;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,7 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-<span class="nc" id="L19">@Slf4j</span>
+<span class="fc" id="L20">@Slf4j</span>
 @RestController
 @RequestMapping(&quot;auth&quot;)
 @Tag(name = &quot;Autenticação&quot;, description = &quot;API para autenticar pessoas no sistema.&quot;)
@@ -27,14 +28,14 @@ public class AuthenticationController {
 
     private final TokenService tokenService;
 
-<span class="nc" id="L30">    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService) {</span>
-<span class="nc" id="L31">        this.authenticationManager = authenticationManager;</span>
-<span class="nc" id="L32">        this.tokenService = tokenService;</span>
-<span class="nc" id="L33">    }</span>
+<span class="fc" id="L31">    public AuthenticationController(AuthenticationManager authenticationManager, TokenService tokenService) {</span>
+<span class="fc" id="L32">        this.authenticationManager = authenticationManager;</span>
+<span class="fc" id="L33">        this.tokenService = tokenService;</span>
+<span class="fc" id="L34">    }</span>
 
     @GetMapping(value = &quot;/healthcheck&quot;)
     public ResponseEntity&lt;String&gt; healthcheck() {
-<span class="nc" id="L37">        return ResponseEntity.ok().body(&quot;OK&quot;);</span>
+<span class="fc" id="L38">        return ResponseEntity.ok().body(&quot;OK&quot;);</span>
     }
 
     @PostMapping(&quot;/login&quot;)
@@ -48,9 +49,9 @@ public class AuthenticationController {
     @ApiResponse(responseCode = &quot;500&quot;, description = &quot;Erro interno.&quot;)
     @ApiResponse(responseCode = &quot;503&quot;, description = &quot;Serviço Indisponível.&quot;)
     public ResponseEntity&lt;LoginResponseDto&gt; login(@Valid @RequestBody LoginRequestDto data) {
-<span class="nc" id="L51">        Authentication usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());</span>
-<span class="nc" id="L52">        Authentication auth = this.authenticationManager.authenticate(usernamePassword);</span>
-<span class="nc" id="L53">        return ResponseEntity.ok().body(new LoginResponseDto(tokenService.generateToken((Pessoa) auth.getPrincipal())));</span>
+<span class="fc" id="L52">        Authentication usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());</span>
+<span class="fc" id="L53">        Authentication auth = this.authenticationManager.authenticate(usernamePassword);</span>
+<span class="fc" id="L54">        return ResponseEntity.ok().body(new LoginResponseDto(tokenService.generateToken((Pessoa) auth.getPrincipal())));</span>
     }
 
 }

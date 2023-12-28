@@ -48,7 +48,7 @@ public class AuthenticationController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto data) throws JsonProcessingException {
+    public ResponseEntity<LoginResponseDto> login(@Valid @RequestBody LoginRequestDto data) {
         Authentication usernamePassword = new UsernamePasswordAuthenticationToken(data.getLogin(), data.getPassword());
         Authentication auth = this.authenticationManager.authenticate(usernamePassword);
         return ResponseEntity.ok().body(new LoginResponseDto(tokenService.generateToken((Pessoa) auth.getPrincipal())));

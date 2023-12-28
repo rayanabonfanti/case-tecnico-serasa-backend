@@ -3,16 +3,16 @@
 import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
-<span class="nc bnc" id="L6" title="All 38 branches missed.">@Data</span>
+<span class="pc bnc" id="L6" title="All 38 branches missed.">@Data</span>
 <span class="nc" id="L7">@Builder</span>
-<span class="nc" id="L8">@NoArgsConstructor</span>
+<span class="fc" id="L8">@NoArgsConstructor</span>
 <span class="nc" id="L9">@AllArgsConstructor</span>
 <span class="nc" id="L10">@ToString</span>
 public class AtualizarPessoaRequestDto {
-<span class="nc" id="L12">    private String nome;</span>
-<span class="nc" id="L13">    private Integer idade;</span>
-<span class="nc" id="L14">    private String telefone;</span>
+<span class="fc" id="L12">    private String nome;</span>
+<span class="fc" id="L13">    private Integer idade;</span>
+<span class="fc" id="L14">    private String telefone;</span>
     @Pattern(regexp = &quot;^\\d{8}$&quot;, message = &quot;cep can only have numbers with size 8&quot;)
-<span class="nc" id="L16">    private String cep;</span>
+<span class="fc" id="L16">    private String cep;</span>
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

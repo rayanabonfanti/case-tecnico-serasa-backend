@@ -5,52 +5,51 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import org.springframework.security.core.AuthenticationException;
 
 import java.util.Set;
 import java.util.stream.Collectors;
 
-<span class="fc" id="L16">@Slf4j</span>
+<span class="fc" id="L15">@Slf4j</span>
 @ControllerAdvice
-<span class="fc" id="L18">public class GlobalExceptionHandler {</span>
+<span class="fc" id="L17">public class GlobalExceptionHandler {</span>
 
     @ExceptionHandler(CustomException.class)
     public ResponseEntity&lt;ErrorResponse&gt; handleErrorResponse(CustomException ex) {
-<span class="fc" id="L22">        int errorCode = ex.getErrorCode();</span>
-<span class="fc" id="L23">        String message = ex.getMessage();</span>
-<span class="fc" id="L24">        ErrorResponse errorResponse = new ErrorResponse(errorCode, message);</span>
-<span class="fc" id="L25">        log.error(errorResponse.getMessage());</span>
-<span class="fc" id="L26">        return ResponseEntity.status(404).body(errorResponse);</span>
+<span class="fc" id="L21">        int errorCode = ex.getErrorCode();</span>
+<span class="fc" id="L22">        String message = ex.getMessage();</span>
+<span class="fc" id="L23">        ErrorResponse errorResponse = new ErrorResponse(errorCode, message);</span>
+<span class="fc" id="L24">        log.error(errorResponse.getMessage());</span>
+<span class="fc" id="L25">        return ResponseEntity.status(404).body(errorResponse);</span>
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity&lt;ErrorResponse&gt; handleAuthenticationException(AuthenticationException ex) {
-<span class="fc" id="L31">        int errorCode = 401;</span>
-<span class="fc" id="L32">        String message = ex.getMessage();</span>
-<span class="fc" id="L33">        ErrorResponse errorResponse = new ErrorResponse(errorCode, &quot;Não autorizado, erro: &quot; + message);</span>
-<span class="fc" id="L34">        log.error(errorResponse.getMessage());</span>
-<span class="fc" id="L35">        return ResponseEntity.status(401).body(errorResponse);</span>
+<span class="fc" id="L30">        int errorCode = 401;</span>
+<span class="fc" id="L31">        String message = ex.getMessage();</span>
+<span class="fc" id="L32">        ErrorResponse errorResponse = new ErrorResponse(errorCode, &quot;Não autorizado, erro: &quot; + message);</span>
+<span class="fc" id="L33">        log.error(errorResponse.getMessage());</span>
+<span class="fc" id="L34">        return ResponseEntity.status(401).body(errorResponse);</span>
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity&lt;ErrorResponse&gt; handleValidationException(ConstraintViolationException ex) {
-<span class="fc" id="L40">        Set&lt;ConstraintViolation&lt;?&gt;&gt; violations = ex.getConstraintViolations();</span>
-<span class="fc" id="L41">        String errorMessage = violations.stream()</span>
-<span class="fc" id="L42">                .map(ConstraintViolation::getMessage)</span>
-<span class="fc" id="L43">                .collect(Collectors.joining(&quot;;&quot;));</span>
-<span class="fc" id="L44">        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), errorMessage);</span>
-<span class="fc" id="L45">        log.error(&quot;Tipo de parâmetro de entrada incorreto (errorMessage): {}&quot;, errorResponse.getMessage());</span>
-<span class="fc" id="L46">        return ResponseEntity.badRequest().body(errorResponse);</span>
+<span class="fc" id="L39">        Set&lt;ConstraintViolation&lt;?&gt;&gt; violations = ex.getConstraintViolations();</span>
+<span class="fc" id="L40">        String errorMessage = violations.stream()</span>
+<span class="fc" id="L41">                .map(ConstraintViolation::getMessage)</span>
+<span class="fc" id="L42">                .collect(Collectors.joining(&quot;;&quot;));</span>
+<span class="fc" id="L43">        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(), errorMessage);</span>
+<span class="fc" id="L44">        log.error(&quot;Tipo de parâmetro de entrada incorreto (errorMessage): {}&quot;, errorResponse.getMessage());</span>
+<span class="fc" id="L45">        return ResponseEntity.badRequest().body(errorResponse);</span>
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity&lt;ErrorResponse&gt; handleGenericException(Exception ex) {
-<span class="fc" id="L51">        log.error(ex.getMessage());</span>
-<span class="fc" id="L52">        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), &quot;Erro interno.&quot;);</span>
-<span class="fc" id="L53">        return ResponseEntity.internalServerError().body(errorResponse);</span>
+<span class="fc" id="L50">        log.error(ex.getMessage());</span>
+<span class="fc" id="L51">        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), &quot;Erro interno.&quot;);</span>
+<span class="fc" id="L52">        return ResponseEntity.internalServerError().body(errorResponse);</span>
     }
 
 }
