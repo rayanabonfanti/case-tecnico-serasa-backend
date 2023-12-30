@@ -1,6 +1,5 @@
 package com.desafio.serasa.experian.exceptions;
 
-
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
@@ -13,21 +12,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class GlobalExpcetionHandlerTest {
     @Mock
     private AuthenticationException authenticationException;
-
-    @Mock
-    private Exception exception;
 
     @InjectMocks
     private GlobalExceptionHandler exceptionHandler;

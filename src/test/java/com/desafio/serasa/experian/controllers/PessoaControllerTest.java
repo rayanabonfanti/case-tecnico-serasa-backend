@@ -1,6 +1,5 @@
 package com.desafio.serasa.experian.controllers;
 
-import com.desafio.serasa.experian.controllers.PessoaController;
 import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
@@ -18,13 +17,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
-public class PessoaControllerTest {
+class PessoaControllerTest {
 
     @InjectMocks
     private PessoaController pessoaController;
@@ -59,7 +58,7 @@ public class PessoaControllerTest {
     @Test
     void testDelete() throws CustomException {
         Long id = 1L;
-        when(pessoaService.deletar(eq(id))).thenReturn("Deleted");
+        when(pessoaService.deletar(id)).thenReturn("Deleted");
 
         ResponseEntity<String> responseEntity = pessoaController.delete(id);
 
@@ -83,7 +82,7 @@ public class PessoaControllerTest {
     @Test
     void testGetScoreStatus() throws CustomException {
         Long id = 1L;
-        when(pessoaService.getScoreStatus(eq(id))).thenReturn("ScoreStatus");
+        when(pessoaService.getScoreStatus(id)).thenReturn("ScoreStatus");
 
         ResponseEntity<String> responseEntity = pessoaController.getScoreStatus(id);
 
@@ -94,20 +93,14 @@ public class PessoaControllerTest {
     @Test
     void testGetPagedPeople() {
         PessoaFilterDTO pessoaFilterDTO = new PessoaFilterDTO();
-
-        // Criar uma instância de PageImpl para simular a resposta do serviço
         Page<Pessoa> mockedPage = new PageImpl<>(Collections.singletonList(new Pessoa()));
 
-        // Configurar o comportamento esperado do serviço
         when(pessoaService.getPagedPeople(any(PessoaFilterDTO.class))).thenReturn(mockedPage);
-
-        // Executar o método que será testado
         ResponseEntity<Page<Pessoa>> responseEntity = pessoaController.getPagedPeople(pessoaFilterDTO);
 
-        // Verificar se o resultado está de acordo com o esperado
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(mockedPage, responseEntity.getBody());
 
-        verify(pessoaService, times(1)).getPagedPeople(eq(pessoaFilterDTO));
+        verify(pessoaService, times(1)).getPagedPeople(pessoaFilterDTO);
     }
 }

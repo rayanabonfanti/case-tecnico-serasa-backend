@@ -2,8 +2,6 @@ package com.desafio.serasa.experian.controllers;
 
 import com.desafio.serasa.experian.domain.autenticador.LoginRequestDto;
 import com.desafio.serasa.experian.domain.autenticador.LoginResponseDto;
-import com.desafio.serasa.experian.domain.pessoa.Pessoa;
-import com.desafio.serasa.experian.repositories.PessoaRepository;
 import com.desafio.serasa.experian.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,12 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class AuthenticationControllerTest {
@@ -32,13 +27,7 @@ class AuthenticationControllerTest {
     private AuthenticationManager authenticationManager;
 
     @Mock
-    private PessoaRepository pessoaRepository;
-
-    @Mock
     private TokenService tokenService;
-
-    @Mock
-    private BCryptPasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {

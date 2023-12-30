@@ -1,11 +1,9 @@
 package com.desafio.serasa.experian.services;
 
 import com.desafio.serasa.experian.domain.endereco.Endereco;
-import com.desafio.serasa.experian.domain.endereco.EnderecoResponseApiDto;
 import com.desafio.serasa.experian.domain.pessoa.*;
 import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.repositories.PessoaRepository;
-import com.desafio.serasa.experian.utils.PessoaUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,7 +16,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -35,11 +32,19 @@ class PessoaServiceImplTest {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Mock
-    private PessoaUtils pessoaUtils;
-
     @InjectMocks
     private PessoaServiceImpl pessoaService;
+
+    private static Endereco buildFictionalEndereco() {
+        return Endereco.builder()
+                .id(1L)
+                .cep("13035070")
+                .estado("SP")
+                .cidade("Campinas")
+                .bairro("Centro")
+                .logradouro("Rua Principal")
+                .build();
+    }
 
     @BeforeEach
     void setUp() {
@@ -59,7 +64,7 @@ class PessoaServiceImplTest {
     }
 
     @Test
-    void testDeletarWhenPessoaNotFound() throws CustomException {
+    void testDeletarWhenPessoaNotFound() {
         when(pessoaRepository.findById(anyLong())).thenReturn(Optional.empty());
 
         CustomException exception = assertThrows(CustomException.class, () -> {
@@ -202,17 +207,6 @@ class PessoaServiceImplTest {
                 .accountNonExpired(true)
                 .accountNonLocked(true)
                 .credentialsNonExpired(true)
-                .build();
-    }
-
-    private static Endereco buildFictionalEndereco() {
-        return Endereco.builder()
-                .id(1L)
-                .cep("13035070")
-                .estado("SP")
-                .cidade("Campinas")
-                .bairro("Centro")
-                .logradouro("Rua Principal")
                 .build();
     }
 

@@ -34,7 +34,7 @@ public class Pessoa implements UserDetails {
     private String scoreDescricao;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "endereco_id", referencedColumnName = "id")
-    private transient Endereco endereco;
+    private Endereco endereco;
     private boolean deleted;
     @JsonIgnore
     private boolean enabled;

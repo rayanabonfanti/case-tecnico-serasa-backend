@@ -4,7 +4,6 @@ import com.desafio.serasa.experian.domain.autenticador.LoginRequestDto;
 import com.desafio.serasa.experian.domain.autenticador.LoginResponseDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.security.TokenService;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;

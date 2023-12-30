@@ -1,7 +1,6 @@
 package com.desafio.serasa.experian.services;
 
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
-import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.repositories.PessoaRepository;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -24,25 +23,18 @@ class AuthorizationServiceTest {
 
     @Test
     void testLoadUserByUsername() {
-        // Configurar o Mockito
         MockitoAnnotations.openMocks(this);
 
-        // Criar uma pessoa fictícia
         Pessoa pessoa = new Pessoa();
         pessoa.setLogin("testUser");
         pessoa.setPassword("testPassword");
 
-        // Definir o comportamento esperado para o repository
         when(pessoaRepository.findByLogin("testUser")).thenReturn(pessoa);
-
-        // Chamar o método a ser testado
         UserDetails userDetails = authorizationService.loadUserByUsername("testUser");
 
-        // Verificar se o UserDetails retornado contém os dados corretos
         assertEquals("testUser", userDetails.getUsername());
         assertEquals("testPassword", userDetails.getPassword());
 
-        // Verificar se o método do repository foi chamado com o login correto
         verify(pessoaRepository, times(1)).findByLogin("testUser");
     }
 

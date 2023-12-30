@@ -14,7 +14,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgyMTJ9.p2eC7xju1fuxUvx396tZay_OCNwRpCdkGXhQdCt9kkw",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzAzODkyNDYwfQ.wMBktNxpoGGr8iR08FR9yWcD0NVdXP90uKUjWvwgmjA",
 							"type": "string"
 						}
 					]
@@ -22,7 +22,7 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/user/deletar?id=d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40",
+					"raw": "http://localhost:8080/user/deletar?id=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -35,7 +35,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40"
+							"value": "2"
 						}
 					]
 				}
@@ -50,7 +50,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MTMxNDZ9.Kd5ZM20SO2j8AXQFneWbUcil1Yw_0t_xHuuPuUUaHik",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzAzODk1NDg3fQ._9rK1AL5UiAXuuxqK9rRZnPO2sfgXK7uM4pNPJnTuxI",
 							"type": "string"
 						}
 					]
@@ -67,7 +67,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/user/atualizar",
+					"raw": "http://localhost:8080/user/atualizar?id=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -76,6 +76,12 @@
 					"path": [
 						"user",
 						"atualizar"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
 					]
 				}
 			},
@@ -89,7 +95,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgyOTJ9.wLsgEaAZTXSDfiS320R0mQzuEnAcB6lyV6htipQasbk",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzAzODkyNDYwfQ.wMBktNxpoGGr8iR08FR9yWcD0NVdXP90uKUjWvwgmjA",
 							"type": "string"
 						}
 					]
@@ -98,7 +104,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"nome\": \"usuariouser1\",\n    \"idade\": 24,\n    \"telefone\": \"19982780675\",\n    \"cep\": \"13035070\"\n}",
+					"raw": "{\n    \"nome\": \"usuarioadmin1\",\n    \"idade\": 30,\n    \"telefone\": \"19982780675\",\n    \"cep\": \"13035070\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -106,7 +112,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://localhost:8080/user/atualizar?id=d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40",
+					"raw": "http://localhost:8080/user/atualizar?id=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -119,7 +125,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "d5b91988-e17c-4ef7-a8bf-d2d2c6fd5a40"
+							"value": "2"
 						}
 					]
 				}
@@ -134,7 +140,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2NDQ2NjR9.w0UQNTqa-KCdUC0CDWh6k_61D4eL72o6Z-qGTm3_NKY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzAzODk2NTIxfQ.cirXOE-BMruE34_XJ2uDWvyy4n5GGd_BaN9F9pI7TjE",
 							"type": "string"
 						}
 					]
@@ -173,7 +179,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgwNjJ9.DQm2k0E0nnaYq7dPydUjy8zg4kD-KaJUkl1KkLHC3D0",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzAzODkyMzQ2fQ.REGJl1oWXAWY7xPuo1nS7DLEuWJpB4k361D_t3p4ijw",
 							"type": "string"
 						}
 					]
@@ -205,18 +211,8 @@
 			"response": []
 		},
 		{
-			"name": "healthcheck",
+			"name": "healthcheck user",
 			"request": {
-				"auth": {
-					"type": "bearer",
-					"bearer": [
-						{
-							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjcyMTF9.tEogWbj91pT0XzTCTsiDNKTb-ymycCv6kQnO_qUfC8k",
-							"type": "string"
-						}
-					]
-				},
 				"method": "GET",
 				"header": [],
 				"url": {
@@ -235,6 +231,26 @@
 			"response": []
 		},
 		{
+			"name": "healthcheck auth",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/auth/healthcheck",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"auth",
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "filtro",
 			"request": {
 				"auth": {
@@ -242,7 +258,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2NDQ2NjR9.w0UQNTqa-KCdUC0CDWh6k_61D4eL72o6Z-qGTm3_NKY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzAzODk2MDczfQ.BuUZ-EYa0iylx1XdcUVmDoXsKFwyOmQBHxiHqrTKZU8",
 							"type": "string"
 						}
 					]
@@ -250,7 +266,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/user/pessoasPaginadas?page=0&size=10&sortField=nome&sortDirection=ASC&nome=usuariouser2&idade=24&cep=13035070",
+					"raw": "http://localhost:8080/user/pessoasPaginadas?page=0&size=10&sortField=nome&sortDirection=ASC&nome=usuariouser2&idade=24&cep=13035-070",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -287,7 +303,7 @@
 						},
 						{
 							"key": "cep",
-							"value": "13035070"
+							"value": "13035-070"
 						}
 					]
 				}
@@ -302,7 +318,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6InJvb3QiLCJleHAiOjE3MDM2MjgyMTJ9.p2eC7xju1fuxUvx396tZay_OCNwRpCdkGXhQdCt9kkw",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJhdXRoLWFwaSIsInN1YiI6ImFkbWluIiwiZXhwIjoxNzAzODkyMzQ2fQ.REGJl1oWXAWY7xPuo1nS7DLEuWJpB4k361D_t3p4ijw",
 							"type": "string"
 						}
 					]
@@ -310,7 +326,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/user/score?id=56c9d59a-16e4-4cf8-9c2e-8da23775e2f8",
+					"raw": "http://localhost:8080/user/score?id=2",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -323,7 +339,7 @@
 					"query": [
 						{
 							"key": "id",
-							"value": "56c9d59a-16e4-4cf8-9c2e-8da23775e2f8"
+							"value": "2"
 						}
 					]
 				}
@@ -366,36 +382,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"login\": \"usuarioadmin2\",\n    \"password\": \"usuarioadmin2\"\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "http://localhost:8080/auth/login",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"auth",
-						"login"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "login root",
-			"request": {
-				"method": "POST",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"login\": \"root\",\n    \"password\": \"root\"\n}",
+					"raw": "{\n    \"login\": \"admin\",\n    \"password\": \"admin\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"

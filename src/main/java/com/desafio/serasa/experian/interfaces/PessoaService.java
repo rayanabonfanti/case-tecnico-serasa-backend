@@ -8,7 +8,6 @@ import com.desafio.serasa.experian.exceptions.CustomException;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Component
 public interface PessoaService {

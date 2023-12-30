@@ -7,10 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest(classes = FraudSystemApplication.class)
 class FraudSystemApplicationTests {
 
-	@Test
-	void contextLoads() {
-		FraudSystemApplication.main(new String[]{});
-		Assertions.assertTrue(true);
-	}
+    @Test
+    void contextLoads() {
+        FraudSystemApplication.main(new String[]{});
+        Assertions.assertTrue(true);
+    }
 
 }

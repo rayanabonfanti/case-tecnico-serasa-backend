@@ -5,13 +5,12 @@ import com.desafio.serasa.experian.domain.endereco.EnderecoResponseApiDto;
 import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
-import com.desafio.serasa.experian.exceptions.CustomException;
-import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 
-@NoArgsConstructor
 public class PessoaUtils {
+
+    private PessoaUtils() {
+    }
 
     public static EnderecoResponseApiDto obterEnderecoPorCEP(String cep) {
         String url = String.format("https://viacep.com.br/ws/%s/json/", cep);
@@ -66,15 +65,15 @@ public class PessoaUtils {
         pessoa.setTelefone(data.getTelefone());
 
         EnderecoResponseApiDto enderecoAPI = obterEnderecoPorCEP(data.getCep());
-            Endereco newEndereco = Endereco.builder()
-                    .cep(enderecoAPI.getCep())
-                    .estado(enderecoAPI.getUf())
-                    .cidade(enderecoAPI.getLocalidade())
-                    .bairro(enderecoAPI.getBairro())
-                    .logradouro(enderecoAPI.getLogradouro())
-                    .build();
+        Endereco newEndereco = Endereco.builder()
+                .cep(enderecoAPI.getCep())
+                .estado(enderecoAPI.getUf())
+                .cidade(enderecoAPI.getLocalidade())
+                .bairro(enderecoAPI.getBairro())
+                .logradouro(enderecoAPI.getLogradouro())
+                .build();
 
-            pessoa.setEndereco(newEndereco);
+        pessoa.setEndereco(newEndereco);
     }
 
 }

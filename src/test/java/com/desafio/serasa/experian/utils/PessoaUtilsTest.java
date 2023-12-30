@@ -4,28 +4,21 @@ import com.desafio.serasa.experian.domain.endereco.EnderecoResponseApiDto;
 import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
-import com.desafio.serasa.experian.exceptions.CustomException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
 
-import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.eq;
+import static org.mockito.Mockito.when;
 
 class PessoaUtilsTest {
 
     @Mock
     private RestTemplate restTemplate;
-
-    @InjectMocks
-    private PessoaUtils pessoaUtils;
 
     @BeforeEach
     void setUp() {
@@ -44,11 +37,46 @@ class PessoaUtilsTest {
 
     @Test
     void testObterDescricaoScore() {
-        assertEquals("Insuficiente", pessoaUtils.obterDescricaoScore(150));
-        assertEquals("Inaceitável", pessoaUtils.obterDescricaoScore(350));
-        assertEquals("Aceitável", pessoaUtils.obterDescricaoScore(600));
-        assertEquals("Recomendável", pessoaUtils.obterDescricaoScore(800));
-        assertEquals("Score fora da faixa", pessoaUtils.obterDescricaoScore(1200));
+        assertEquals("Insuficiente", PessoaUtils.obterDescricaoScore(150));
+        assertEquals("Inaceitável", PessoaUtils.obterDescricaoScore(350));
+        assertEquals("Aceitável", PessoaUtils.obterDescricaoScore(600));
+        assertEquals("Recomendável", PessoaUtils.obterDescricaoScore(800));
+        assertEquals("Score fora da faixa", PessoaUtils.obterDescricaoScore(1200));
+    }
+
+    @Test
+    void testObterDescricaoScore_Insuficiente() {
+        assertEquals("Insuficiente", PessoaUtils.obterDescricaoScore(0));
+        assertEquals("Insuficiente", PessoaUtils.obterDescricaoScore(50));
+        assertEquals("Insuficiente", PessoaUtils.obterDescricaoScore(200));
+    }
+
+    @Test
+    void testObterDescricaoScore_Inaceitavel() {
+        assertEquals("Inaceitável", PessoaUtils.obterDescricaoScore(201));
+        assertEquals("Inaceitável", PessoaUtils.obterDescricaoScore(350));
+        assertEquals("Inaceitável", PessoaUtils.obterDescricaoScore(500));
+    }
+
+    @Test
+    void testObterDescricaoScore_Aceitavel() {
+        assertEquals("Aceitável", PessoaUtils.obterDescricaoScore(501));
+        assertEquals("Aceitável", PessoaUtils.obterDescricaoScore(600));
+        assertEquals("Aceitável", PessoaUtils.obterDescricaoScore(700));
+    }
+
+    @Test
+    void testObterDescricaoScore_Recomendavel() {
+        assertEquals("Recomendável", PessoaUtils.obterDescricaoScore(701));
+        assertEquals("Recomendável", PessoaUtils.obterDescricaoScore(800));
+        assertEquals("Recomendável", PessoaUtils.obterDescricaoScore(1000));
+    }
+
+    @Test
+    void testObterDescricaoScore_ForaDaFaixa() {
+        assertEquals("Score fora da faixa", PessoaUtils.obterDescricaoScore(-1));
+        assertEquals("Score fora da faixa", PessoaUtils.obterDescricaoScore(1200));
+        assertEquals("Score fora da faixa", PessoaUtils.obterDescricaoScore(1500));
     }
 
     @Test
@@ -68,7 +96,7 @@ class PessoaUtilsTest {
     }
 
     @Test
-    void testAtualizarPessoaComDados() throws CustomException {
+    void testAtualizarPessoaComDados() {
         Pessoa pessoa = new Pessoa();
         AtualizarPessoaRequestDto data = new AtualizarPessoaRequestDto();
         data.setCep("13035-070");

@@ -16,9 +16,7 @@ import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Objects;
 import java.util.Optional;
 
 @Slf4j
@@ -39,14 +37,9 @@ public class PessoaServiceImpl implements PessoaService {
 
         String encryptedPassword = new BCryptPasswordEncoder().encode(data.getPassword());
         EnderecoResponseApiDto enderecoAPI = PessoaUtils.obterEnderecoPorCEP(data.getCep());
-
         Pessoa newPessoa = PessoaUtils.criarPessoa(data, enderecoAPI, encryptedPassword);
-        if (!Objects.isNull(newPessoa)) {
-            this.pessoaRepository.save(newPessoa);
-            return newPessoa;
-        }
-
-        throw new CustomException(HttpStatus.BAD_REQUEST.value(), OBJETO_NOT_FOUND);
+        this.pessoaRepository.save(newPessoa);
+        return newPessoa;
     }
 
     @Override
@@ -92,20 +85,25 @@ public class PessoaServiceImpl implements PessoaService {
 
     @Override
     public Page<Pessoa> getPagedPeople(@Valid PessoaFilterDTO pessoaFilterDTO) {
-
-        Pageable pageable = PageRequest.of(pessoaFilterDTO.getPage(), pessoaFilterDTO.getSize(),
-                Sort.by(Sort.Direction.fromString(pessoaFilterDTO.getSortDirection()), pessoaFilterDTO.getSortField()));
+        Pageable pageable = PageRequest.of(
+                pessoaFilterDTO.getPage(),
+                pessoaFilterDTO.getSize(),
+                Sort.by(Sort.Direction.fromString(pessoaFilterDTO.getSortDirection()), pessoaFilterDTO.getSortField())
+        );
 
         Pessoa examplePessoa = new Pessoa();
         examplePessoa.setNome(pessoaFilterDTO.getNome());
         examplePessoa.setIdade(pessoaFilterDTO.getIdade());
+
         Endereco exampleEndereco = new Endereco();
         exampleEndereco.setCep(pessoaFilterDTO.getCep());
         examplePessoa.setEndereco(exampleEndereco);
 
-        ExampleMatcher matcher = ExampleMatcher.matching().withIgnoreCase()
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
                 .withIgnorePaths("deleted");
+
         Example<Pessoa> example = Example.of(examplePessoa, matcher);
 
         return pessoaRepository.findAll(example, pageable);
