@@ -4,12 +4,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest(classes = FraudSystemApplication.class)
-class FraudSystemApplicationTests {
+@SpringBootTest(classes = SystemApplication.class)
+class SystemApplicationTests {
 
     @Test
     void contextLoads() {
-        FraudSystemApplication.main(new String[]{});
+        SystemApplication.main(new String[]{});
         Assertions.assertTrue(true);
     }
 
