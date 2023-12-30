@@ -46,7 +46,7 @@ public class PessoaController {
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
     public ResponseEntity<Pessoa> salvar(@Valid @RequestBody SalvarPessoaRequestDto data, BindingResult bindingResult) throws CustomException {
-        return ResponseEntity.ok().body(pessoaService.salvar(data));
+        return ResponseEntity.status(201).body(pessoaService.salvar(data));
     }
 
     @DeleteMapping("/deletar")
