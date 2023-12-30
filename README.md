@@ -71,11 +71,13 @@ O serviço implementa uma lógica para associar uma descrição ao score da pess
 
 1. **Teste:** Defina variáveis de ambiente na sua IDE de teste na posta 8080, como `profile=test;my-secret-key=my-secret-key;password-admin=admin;`.
 2. **Produção:** Defina variáveis de ambiente de produção na sua IDE na porta 8443, como `profile=prod;my-secret-key=my-secret-key;password-admin=admin;`.
+3. **Docker:** Defina variáveis de ambiente de teste no seu docker (teste ou produção), como `profile=test;my-secret-key=my-secret-key;password-admin=admin;`.
 
 ### Execução:
 
 1. Execute o comando para instalar as dependências (Observação: como já irá executar o ambiente de teste, ou seja, os testes unitários, será necessário colocar as variáveis de ambiente juntamente ao comando do maven): `mvn clean install -Dprofile=test -Dmy-secret-key=my-secret-key -Dpassword-admin=admin`.
 2. Inicie o serviço na sua IDE rodando o arquivo `SystemApplication` (Observação: seguir o passo de configuração acima de configuração de variáveis de ambiente).
+3. Execute o docker rodando o arquivo `Dockerfile` (Observação: seguir o passo 3 da configuração acima de configuração de variáveis de ambiente).
 
 ## Realizações Futuras
 

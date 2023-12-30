@@ -1,9 +1,7 @@
 package com.desafio.serasa.experian.domain.pessoa;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Data
@@ -25,5 +23,6 @@ public class SalvarPessoaRequestDto {
     private Integer idade;
     private String telefone;
     @NotNull(message = "score is required.")
+    @Max(value = 1000, message = "value max is 1000 score.")
     private Integer score;
 }

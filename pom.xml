@@ -10,11 +10,11 @@
 		<relativePath/>
 	</parent>
 
-	<groupId>com.desafio.serasa.experian</groupId>
-	<artifactId>com.desafio.serasa.experian</artifactId>
+	<groupId>desafio-serasa-experian</groupId>
+	<artifactId>desafio-serasa-experian</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>com.desafio.serasa.experian</name>
-	<description>Desafio Serasa Experian</description>
+	<name>desafio-serasa-experian</name>
+	<description>desafio-serasa-experian</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -188,6 +188,7 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<finalName>desafio-serasa-experian</finalName>
 	</build>
 
 </project>

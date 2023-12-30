@@ -2,6 +2,7 @@ package com.desafio.serasa.experian.domain.endereco;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 @Data
