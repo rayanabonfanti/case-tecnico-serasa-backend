@@ -8,7 +8,7 @@ O Desafio Serasa Experian tem como objetivo desenvolver um serviço robusto para
 
 ### Cadastro de Pessoas
 
-Usuários com perfil ADMIN podem criar registros de pessoas, fornecendo o CEP para obter automaticamente os dados de endereço por meio de uma API externa.
+Usuários com perfil ADMIN podem criar registros de pessoas, fornecendo o CEP para obter automaticamente os dados de endereço por meio de uma API externa (viaCEP).
 
 ### Listagem Paginada
 
@@ -79,14 +79,6 @@ O serviço implementa uma lógica para associar uma descrição ao score da pess
 2. Inicie o serviço na sua IDE rodando o arquivo `SystemApplication` (Observação: seguir o passo de configuração acima de configuração de variáveis de ambiente).
 3. Após rodar a aplicação, você pode acessar os serviços por meio da collection disponibilizada usando o Postman ou entrando por meio do [Link para acessar o Swagger localmente](http://localhost:8080/swagger-ui/index.html).
 4. Execute o docker rodando o arquivo `Dockerfile` (Observação: seguir o passo 3 da configuração acima de configuração de variáveis de ambiente).
-
-## Realizações Futuras
-
-- **Snapshot no AWS ou Azure:**
-    - Inserção de Snapshot no AWS ou Azure.
-
-- **Novas Funcionalidades:**
-    - Inserção de novas funcionalidades no futuro.
 
 ## Contribuições
 
