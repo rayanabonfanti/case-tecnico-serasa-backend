@@ -55,23 +55,18 @@ public class TokenService {
 
             if (subject != null) {
                 String userJson = getUserFromRedis(subject);
-                String tokenRedis = getUsernameFromRedis(subject);
-                if (userJson != null && userJson.trim().equalsIgnoreCase(tokenRedis)) {
+                if (userJson != null) {
                     return convertJsonToUser(userJson);
                 }
             }
             return null;
         } catch (JWTVerificationException exception) {
-            return null;
+            throw new IllegalArgumentException("Error while validation token", exception);
         }
     }
 
     public Instant genExpiration() {
         return Instant.now().plus(600, ChronoUnit.SECONDS);
-    }
-
-    private String getUsernameFromRedis(String subject) {
-        return redisTemplate.opsForValue().get(subject);
     }
 
     private String getUserFromRedis(String subject) {

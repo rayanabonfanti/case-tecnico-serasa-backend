@@ -17,7 +17,6 @@ public class SalvarPessoaRequestDto {
     @Valid
     private PessoaRole role;
     @NotBlank(message = "cep is required.")
-    @Pattern(regexp = "^\\d{8}$", message = "cep can only have numbers with size 8")
     private String cep;
     private String nome;
     private Integer idade;

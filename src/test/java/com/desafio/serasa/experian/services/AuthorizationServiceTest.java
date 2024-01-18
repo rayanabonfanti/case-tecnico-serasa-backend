@@ -39,7 +39,7 @@ class AuthorizationServiceTest {
     }
 
     @Test
-    void testLoadUserByUsernameUserNotFound() {
+        void testLoadUserByUsernameUserNotFound() {
         MockitoAnnotations.openMocks(this);
 
         when(pessoaRepository.findByLogin("nonexistentUser")).thenReturn(null);

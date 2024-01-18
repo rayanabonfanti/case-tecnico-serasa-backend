@@ -51,7 +51,7 @@ class PessoaControllerTest {
 
         ResponseEntity<Pessoa> responseEntity = pessoaController.salvar(salvarPessoaRequestDto, null);
 
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
         assertEquals(pessoa, responseEntity.getBody());
     }
 

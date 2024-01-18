@@ -78,7 +78,8 @@ O serviço implementa uma lógica para associar uma descrição ao score da pess
 1. Execute o comando para instalar as dependências (Observação: como já irá executar o ambiente de teste, ou seja, os testes unitários, será necessário colocar as variáveis de ambiente juntamente ao comando do maven): `mvn clean install -Dprofile=test -Dmy-secret-key=my-secret-key -Dpassword-admin=admin`.
 2. Inicie o serviço na sua IDE rodando o arquivo `SystemApplication` (Observação: seguir o passo de configuração acima de configuração de variáveis de ambiente).
 3. Após rodar a aplicação, você pode acessar os serviços por meio da collection disponibilizada usando o Postman ou entrando por meio do [Link para acessar o Swagger localmente](http://localhost:8080/swagger-ui/index.html).
-4. Execute o docker rodando o arquivo `Dockerfile` (Observação: seguir o passo 3 da configuração acima de configuração de variáveis de ambiente).
+4. Para rodar o Dockerfile, gere primeiro a imagem, por meio do comando `docker build -t imagem-docker-desafio:tag -f Dockerfile .`.
+5. Após gerar a imagem, pode rodar a imagem docker pelo comando `docker run -p 9090:8080 --name container-docker-desafio -d imagem-docker-desafio:tag`.
 
 ## Realizações Futuras
 
