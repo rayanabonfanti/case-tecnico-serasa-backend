@@ -8,7 +8,7 @@ O Desafio Serasa Experian tem como objetivo desenvolver um serviço robusto para
 
 ### Cadastro de Pessoas
 
-Usuários com perfil ADMIN podem criar registros de pessoas, fornecendo o CEP para obter automaticamente os dados de endereço por meio de uma API externa.
+Usuários com perfil ADMIN podem criar registros de pessoas, fornecendo o CEP para obter automaticamente os dados de endereço por meio de uma API externa (viaCEP).
 
 ### Listagem Paginada
 
@@ -80,14 +80,6 @@ O serviço implementa uma lógica para associar uma descrição ao score da pess
 3. Após rodar a aplicação, você pode acessar os serviços por meio da collection disponibilizada usando o Postman ou entrando por meio do [Link para acessar o Swagger localmente](http://localhost:8080/swagger-ui/index.html).
 4. Para rodar o Dockerfile, gere primeiro a imagem, por meio do comando `docker build -t imagem-docker-desafio:tag -f Dockerfile .`.
 5. Após gerar a imagem, pode rodar a imagem docker pelo comando `docker run -p 9090:8080 --name container-docker-desafio -d imagem-docker-desafio:tag`.
-
-## Realizações Futuras
-
-- **Snapshot no AWS ou Azure:**
-    - Inserção de Snapshot no AWS ou Azure.
-
-- **Novas Funcionalidades:**
-    - Inserção de novas funcionalidades no futuro.
 
 ## Contribuições
 
