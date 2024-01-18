@@ -6,8 +6,10 @@ import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,9 +17,15 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.when;
 
+@SpringBootTest
+@TestPropertySource(properties = {
+        "spring.profiles.active=test",
+        "my-secret-key=my-secret-key",
+        "password-admin=admin"
+})
 class PessoaUtilsTest {
 
-    @Mock
+    @MockBean
     private RestTemplate restTemplate;
 
     @BeforeEach
@@ -30,6 +38,7 @@ class PessoaUtilsTest {
         String cep = "13035070";
         EnderecoResponseApiDto endereco = new EnderecoResponseApiDto("13035-070", "SP", "Vila Industrial", "Campinas", "Rua Caçapava");
 
+        when(restTemplate.getForObject(anyString(), eq(EnderecoResponseApiDto.class))).thenReturn(endereco);
         EnderecoResponseApiDto result = PessoaUtils.obterEnderecoPorCEP(cep);
 
         assertEquals(endereco, result);

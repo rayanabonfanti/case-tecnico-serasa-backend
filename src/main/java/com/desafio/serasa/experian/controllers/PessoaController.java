@@ -101,7 +101,7 @@ public class PessoaController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<Page<Pessoa>> getPagedPeople(@Valid @ModelAttribute PessoaFilterDTO pessoaFilterDTO) {
+    public ResponseEntity<Page<Pessoa>> getPagedPeople(@Valid PessoaFilterDTO pessoaFilterDTO) {
         return ResponseEntity.ok().body(pessoaService.getPagedPeople(pessoaFilterDTO));
     }
 

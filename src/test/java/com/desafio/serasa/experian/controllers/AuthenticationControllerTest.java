@@ -3,58 +3,75 @@ package com.desafio.serasa.experian.controllers;
 import com.desafio.serasa.experian.domain.autenticador.LoginRequestDto;
 import com.desafio.serasa.experian.domain.autenticador.LoginResponseDto;
 import com.desafio.serasa.experian.security.TokenService;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestPropertySource(properties = {
+        "spring.profiles.active=test",
+        "my-secret-key=my-secret-key",
+        "password-admin=admin"
+})
 class AuthenticationControllerTest {
 
-    @InjectMocks
-    private AuthenticationController authenticationController;
+    @Autowired
+    private MockMvc mockMvc;
 
-    @Mock
+    @MockBean
     private AuthenticationManager authenticationManager;
 
-    @Mock
+    @MockBean
     private TokenService tokenService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    @Test
+    void healthcheck() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get("/auth/healthcheck"))
+                .andReturn();
+
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
+
+        String content = mvcResult.getResponse().getContentAsString();
+        assertEquals("OK", content);
     }
 
     @Test
-    void healthcheck() {
-        ResponseEntity<String> response = authenticationController.healthcheck();
-
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("OK", response.getBody());
-    }
-
-    @Test
-    void testLogin() {
+    void testLogin() throws Exception {
         LoginRequestDto loginRequestDto = new LoginRequestDto("username", "password");
         Authentication authMock = mock(Authentication.class);
 
         when(authenticationManager.authenticate(any(UsernamePasswordAuthenticationToken.class))).thenReturn(authMock);
         when(tokenService.generateToken(any())).thenReturn("mockedToken");
 
-        ResponseEntity<LoginResponseDto> responseEntity = authenticationController.login(loginRequestDto);
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/auth/login")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{ \"login\": \"username\", \"password\": \"password\" }"))
+                .andReturn();
 
-        assertEquals(200, responseEntity.getStatusCodeValue());
-        assertEquals("mockedToken", responseEntity.getBody().getToken());
+        int status = mvcResult.getResponse().getStatus();
+        assertEquals(200, status);
 
-        verify(authenticationManager, times(1)).authenticate(new UsernamePasswordAuthenticationToken("username", "password"));
+        String content = mvcResult.getResponse().getContentAsString();
+        LoginResponseDto responseDto = new ObjectMapper().readValue(content, LoginResponseDto.class);
+        assertEquals("mockedToken", responseDto.getToken());
+
+        verify(authenticationManager, times(1)).authenticate(any(UsernamePasswordAuthenticationToken.class));
     }
 }

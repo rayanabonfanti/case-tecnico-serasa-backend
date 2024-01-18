@@ -1,106 +1,301 @@
 package com.desafio.serasa.experian.controllers;
 
-import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
-import com.desafio.serasa.experian.domain.pessoa.Pessoa;
-import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
-import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.endereco.Endereco;
+import com.desafio.serasa.experian.domain.pessoa.*;
 import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.interfaces.PessoaService;
-import org.junit.jupiter.api.BeforeEach;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithUserDetails;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestPropertySource(properties = {
+        "spring.profiles.active=test",
+        "my-secret-key=my-secret-key",
+        "password-admin=admin"
+})
 class PessoaControllerTest {
 
-    @InjectMocks
-    private PessoaController pessoaController;
-
-    @Mock
+    @Autowired
+    private MockMvc mockMvc;
+    @Autowired
+    private ObjectMapper objectMapper;
+    @MockBean
     private PessoaService pessoaService;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnBadRequestForMissingLogin() throws Exception {
+        SalvarPessoaRequestDto requestDto = SalvarPessoaRequestDto.builder()
+                .password("examplePassword")
+                .role(PessoaRole.USER)
+                .cep("01001-000")
+                .nome("John Doe")
+                .idade(25)
+                .telefone("123456789")
+                .score(800)
+                .build();
+
+        mockMvc.perform(post("/user/salvar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().string("{\"errorCode\":400,\"message\":\"login is required.\"}"));
     }
 
     @Test
-    void healthcheck() {
-        ResponseEntity<String> response = pessoaController.healthcheck();
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("OK", response.getBody());
+    @WithUserDetails("admin")
+    void shouldReturnOkForSalvar() throws Exception {
+        SalvarPessoaRequestDto requestDto = SalvarPessoaRequestDto.builder()
+                .login("exampleUser")
+                .password("examplePassword")
+                .role(PessoaRole.USER)
+                .cep("01001-000")
+                .nome("John Doe")
+                .idade(25)
+                .telefone("123456789")
+                .score(800)
+                .build();
+
+        Pessoa savedPessoa = Pessoa.builder()
+                .id(1L)
+                .login("exampleUser")
+                .password("examplePassword")
+                .role(PessoaRole.USER)
+                .nome("John Doe")
+                .idade(25)
+                .telefone("123456789")
+                .score(800)
+                .scoreDescricao("Score Description")
+                .endereco(Endereco.builder()
+                        .id(1L)
+                        .cep("01001-000")
+                        .estado("SP")
+                        .cidade("São Paulo")
+                        .bairro("Sé")
+                        .logradouro("Praça da Sé")
+                        .build())
+                .deleted(false)
+                .enabled(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .build();
+
+        Mockito.when(pessoaService.salvar(Mockito.any(SalvarPessoaRequestDto.class))).thenReturn(savedPessoa);
+
+        mockMvc.perform(post("/user/salvar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isCreated());
     }
 
     @Test
-    void testSalvar() throws CustomException {
-        SalvarPessoaRequestDto salvarPessoaRequestDto = new SalvarPessoaRequestDto();
-        Pessoa pessoa = new Pessoa();
-        when(pessoaService.salvar(any(SalvarPessoaRequestDto.class))).thenReturn(pessoa);
+    @WithUserDetails("admin")
+    void shouldReturnInternalServerErrorForSalvar() throws Exception {
+        SalvarPessoaRequestDto requestDto = SalvarPessoaRequestDto.builder()
+                .login("exampleUser")
+                .password("examplePassword")
+                .role(PessoaRole.USER)
+                .cep("01001-000")
+                .nome("John Doe")
+                .idade(25)
+                .telefone("123456789")
+                .score(800)
+                .build();
 
-        ResponseEntity<Pessoa> responseEntity = pessoaController.salvar(salvarPessoaRequestDto, null);
+        Mockito.when(pessoaService.salvar(Mockito.any(SalvarPessoaRequestDto.class)))
+                .thenThrow(new RuntimeException("Erro interno."));
 
-        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
-        assertEquals(pessoa, responseEntity.getBody());
+        mockMvc.perform(post("/user/salvar")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isInternalServerError());
+    }
+
+
+    @Test
+    void shouldReturnOKForHealthCheck() throws Exception {
+        mockMvc.perform(get("/user/healthcheck"))
+                .andExpect(status().isOk())
+                .andExpect(content().string("OK"));
     }
 
     @Test
-    void testDelete() throws CustomException {
-        Long id = 1L;
-        when(pessoaService.deletar(id)).thenReturn("Deleted");
-
-        ResponseEntity<String> responseEntity = pessoaController.delete(id);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("Deleted", responseEntity.getBody());
+    void shouldReturnNotFoundForInvalidURL() throws Exception {
+        mockMvc.perform(get("/user/invalidurl"))
+                .andExpect(status().isForbidden());
     }
 
     @Test
-    void testUpdate() throws CustomException {
-        Long id = 1L;
-        AtualizarPessoaRequestDto atualizarPessoaRequestDto = new AtualizarPessoaRequestDto();
-        Pessoa pessoa = new Pessoa();
-        when(pessoaService.update(eq(id), any(AtualizarPessoaRequestDto.class))).thenReturn(pessoa);
+    @WithUserDetails("admin")
+    void shouldReturnOkForDelete() throws Exception {
+        Mockito.when(pessoaService.deletar(Mockito.anyLong())).thenReturn("Deletado com sucesso");
 
-        ResponseEntity<Pessoa> responseEntity = pessoaController.update(id, atualizarPessoaRequestDto);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(pessoa, responseEntity.getBody());
+        mockMvc.perform(delete("/user/deletar")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Deletado com sucesso"));
     }
 
     @Test
-    void testGetScoreStatus() throws CustomException {
-        Long id = 1L;
-        when(pessoaService.getScoreStatus(id)).thenReturn("ScoreStatus");
+    @WithUserDetails("admin")
+    void shouldReturnNotFoundForDeleteNotFound() throws Exception {
+        Mockito.when(pessoaService.deletar(Mockito.anyLong())).thenThrow(new CustomException(404, "Pessoa não encontrada."));
 
-        ResponseEntity<String> responseEntity = pessoaController.getScoreStatus(id);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals("ScoreStatus", responseEntity.getBody());
+        mockMvc.perform(delete("/user/deletar")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("{\"errorCode\":404,\"message\":\"Pessoa nÃ£o encontrada.\"}"));
     }
 
     @Test
-    void testGetPagedPeople() {
-        PessoaFilterDTO pessoaFilterDTO = new PessoaFilterDTO();
-        Page<Pessoa> mockedPage = new PageImpl<>(Collections.singletonList(new Pessoa()));
+    @WithUserDetails("admin")
+    void shouldReturnInternalServerErrorForDeleteError() throws Exception {
+        Mockito.when(pessoaService.deletar(Mockito.anyLong())).thenThrow(new RuntimeException("Erro interno."));
 
-        when(pessoaService.getPagedPeople(any(PessoaFilterDTO.class))).thenReturn(mockedPage);
-        ResponseEntity<Page<Pessoa>> responseEntity = pessoaController.getPagedPeople(pessoaFilterDTO);
-
-        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
-        assertEquals(mockedPage, responseEntity.getBody());
-
-        verify(pessoaService, times(1)).getPagedPeople(pessoaFilterDTO);
+        mockMvc.perform(delete("/user/deletar")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
     }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnInternalServerErrorForUpdateError() throws Exception {
+        Mockito.when(pessoaService.update(Mockito.anyLong(), any(AtualizarPessoaRequestDto.class))).thenThrow(new RuntimeException("Erro interno."));
+
+        mockMvc.perform(patch("/user/atualizar")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"login\":\"exampleUser\",\"password\":\"examplePassword\",\"role\":\"USER\",\"cep\":\"01001-000\",\"nome\":\"John Doe\",\"idade\":25,\"telefone\":\"123456789\",\"score\":800}"))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnOkForGetScoreStatus() throws Exception {
+        Mockito.when(pessoaService.getScoreStatus(Mockito.anyLong())).thenReturn("Score Status");
+
+        mockMvc.perform(get("/user/score")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Score Status"));
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnNotFoundForGetScoreStatusNotFound() throws Exception {
+        Mockito.when(pessoaService.getScoreStatus(Mockito.anyLong())).thenThrow(new CustomException(404, "Pessoa não encontrada."));
+
+        mockMvc.perform(get("/user/score")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string("{\"errorCode\":404,\"message\":\"Pessoa nÃ£o encontrada.\"}"));
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnInternalServerErrorForGetScoreStatusError() throws Exception {
+        Mockito.when(pessoaService.getScoreStatus(Mockito.anyLong())).thenThrow(new RuntimeException("Erro interno."));
+
+        mockMvc.perform(get("/user/score")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnInternalServerErrorForGetPagedPeopleError() throws Exception {
+        Mockito.when(pessoaService.getPagedPeople(Mockito.any(PessoaFilterDTO.class))).thenThrow(new RuntimeException("Erro interno."));
+
+        mockMvc.perform(get("/user/pessoasPaginadas")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isInternalServerError());
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnOkForUpdate() throws Exception {
+        Pessoa updatedPessoa = Pessoa.builder().id(1L).login("exampleUser").build();
+
+        Mockito.when(pessoaService.update(Mockito.anyLong(), any(AtualizarPessoaRequestDto.class))).thenReturn(updatedPessoa);
+
+        AtualizarPessoaRequestDto requestDto = AtualizarPessoaRequestDto.builder()
+                .nome("John Doe")
+                .idade(25)
+                .telefone("123456789")
+                .cep("01001000")
+                .build();
+
+        mockMvc.perform(patch("/user/atualizar")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isOk())
+                .andExpect(content().json("{\"id\":1,\"login\":\"exampleUser\"}"));
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnNotFoundForUpdateNotFound() throws Exception {
+        Mockito.when(pessoaService.update(Mockito.anyLong(), any(AtualizarPessoaRequestDto.class)))
+                .thenThrow(new CustomException(404, "Pessoa não encontrada."));
+
+        AtualizarPessoaRequestDto requestDto = AtualizarPessoaRequestDto.builder()
+                .nome("John Doe")
+                .idade(25)
+                .telefone("123456789")
+                .cep("01001000")
+                .build();
+
+        mockMvc.perform(patch("/user/atualizar")
+                        .param("id", "1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(requestDto)))
+                .andExpect(status().isNotFound())
+                .andExpect(content().json("{\"errorCode\":404,\"message\":\"Pessoa não encontrada.\"}"));
+    }
+
+    @Test
+    @WithUserDetails("admin")
+    void shouldReturnOkForGetPagedPeople() throws Exception {
+        Pessoa pessoa = Pessoa.builder().id(1L).login("exampleUser").build();
+        Page<Pessoa> page = new PageImpl<>(Collections.singletonList(pessoa));
+
+        Mockito.when(pessoaService.getPagedPeople(Mockito.any(PessoaFilterDTO.class))).thenReturn(page);
+
+        mockMvc.perform(get("/user/pessoasPaginadas")
+                        .param("sortField", "nome")
+                        .param("nome", "John Doe")
+                        .param("idade", "25")
+                        .param("cep", "01001-000")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
 }

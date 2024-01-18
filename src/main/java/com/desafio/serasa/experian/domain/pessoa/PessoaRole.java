@@ -2,6 +2,7 @@ package com.desafio.serasa.experian.domain.pessoa;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 @Getter
