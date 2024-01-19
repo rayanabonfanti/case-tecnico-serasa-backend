@@ -1,7 +1,7 @@
 package com.desafio.serasa.experian.controllers;
 
-import com.desafio.serasa.experian.domain.autenticador.LoginRequestDto;
-import com.desafio.serasa.experian.domain.autenticador.LoginResponseDto;
+import com.desafio.serasa.experian.domain.autenticadorDTO.LoginRequestDto;
+import com.desafio.serasa.experian.domain.autenticadorDTO.LoginResponseDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
 import com.desafio.serasa.experian.security.TokenService;
 import io.swagger.v3.oas.annotations.Operation;

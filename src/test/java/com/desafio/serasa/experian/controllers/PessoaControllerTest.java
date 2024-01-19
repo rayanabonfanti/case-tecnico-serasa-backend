@@ -1,5 +1,9 @@
 package com.desafio.serasa.experian.controllers;
 
+import com.desafio.serasa.experian.domain.dtos.AtualizarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.dtos.PessoaFilterDTO;
+import com.desafio.serasa.experian.domain.dtos.PessoaResponseDTO;
+import com.desafio.serasa.experian.domain.dtos.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.endereco.Endereco;
 import com.desafio.serasa.experian.domain.pessoa.*;
 import com.desafio.serasa.experian.exceptions.CustomException;
@@ -76,29 +80,19 @@ class PessoaControllerTest {
                 .score(800)
                 .build();
 
-        Pessoa savedPessoa = Pessoa.builder()
-                .id(1L)
-                .login("exampleUser")
-                .password("examplePassword")
-                .role(PessoaRole.USER)
+        PessoaResponseDTO savedPessoa = PessoaResponseDTO.builder()
                 .nome("John Doe")
                 .idade(25)
                 .telefone("123456789")
                 .score(800)
                 .scoreDescricao("Score Description")
                 .endereco(Endereco.builder()
-                        .id(1L)
                         .cep("01001-000")
                         .estado("SP")
                         .cidade("São Paulo")
                         .bairro("Sé")
                         .logradouro("Praça da Sé")
                         .build())
-                .deleted(false)
-                .enabled(true)
-                .accountNonExpired(true)
-                .accountNonLocked(true)
-                .credentialsNonExpired(true)
                 .build();
 
         Mockito.when(pessoaService.salvar(Mockito.any(SalvarPessoaRequestDto.class))).thenReturn(savedPessoa);

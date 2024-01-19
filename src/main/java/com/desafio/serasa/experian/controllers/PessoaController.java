@@ -1,9 +1,10 @@
 package com.desafio.serasa.experian.controllers;
 
-import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.dtos.AtualizarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.dtos.PessoaResponseDTO;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
-import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
-import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.dtos.PessoaFilterDTO;
+import com.desafio.serasa.experian.domain.dtos.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.interfaces.PessoaService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -45,7 +46,7 @@ public class PessoaController {
     @ApiResponse(responseCode = "405", description = "Requisição mal formatada.")
     @ApiResponse(responseCode = "500", description = "Erro interno.")
     @ApiResponse(responseCode = "503", description = "Serviço Indisponível.")
-    public ResponseEntity<Pessoa> salvar(@Valid @RequestBody SalvarPessoaRequestDto data, BindingResult bindingResult) throws CustomException {
+    public ResponseEntity<PessoaResponseDTO> salvar(@Valid @RequestBody SalvarPessoaRequestDto data, BindingResult bindingResult) throws CustomException {
         return ResponseEntity.status(201).body(pessoaService.salvar(data));
     }
 

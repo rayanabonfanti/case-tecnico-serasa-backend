@@ -1,4 +1,4 @@
-package com.desafio.serasa.experian.domain.autenticador;
+package com.desafio.serasa.experian.domain.autenticadorDTO;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;

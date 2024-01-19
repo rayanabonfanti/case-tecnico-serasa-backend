@@ -1,4 +1,4 @@
-package com.desafio.serasa.experian.domain.endereco;
+package com.desafio.serasa.experian.domain.dtos;
 
 import lombok.*;
 

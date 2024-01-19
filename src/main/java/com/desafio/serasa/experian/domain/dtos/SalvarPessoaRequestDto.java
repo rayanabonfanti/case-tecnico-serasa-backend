@@ -1,5 +1,6 @@
-package com.desafio.serasa.experian.domain.pessoa;
+package com.desafio.serasa.experian.domain.dtos;
 
+import com.desafio.serasa.experian.domain.pessoa.PessoaRole;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.*;

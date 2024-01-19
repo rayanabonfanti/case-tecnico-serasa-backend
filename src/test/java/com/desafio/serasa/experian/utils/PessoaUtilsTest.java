@@ -1,9 +1,9 @@
 package com.desafio.serasa.experian.utils;
 
-import com.desafio.serasa.experian.domain.endereco.EnderecoResponseApiDto;
-import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.dtos.EnderecoResponseApiDto;
+import com.desafio.serasa.experian.domain.dtos.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
-import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.dtos.SalvarPessoaRequestDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;

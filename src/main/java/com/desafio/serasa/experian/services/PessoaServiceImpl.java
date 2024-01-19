@@ -1,11 +1,8 @@
 package com.desafio.serasa.experian.services;
 
+import com.desafio.serasa.experian.domain.dtos.*;
 import com.desafio.serasa.experian.domain.endereco.Endereco;
-import com.desafio.serasa.experian.domain.endereco.EnderecoResponseApiDto;
-import com.desafio.serasa.experian.domain.pessoa.AtualizarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.pessoa.Pessoa;
-import com.desafio.serasa.experian.domain.pessoa.PessoaFilterDTO;
-import com.desafio.serasa.experian.domain.pessoa.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.exceptions.CustomException;
 import com.desafio.serasa.experian.interfaces.PessoaService;
 import com.desafio.serasa.experian.repositories.PessoaRepository;
@@ -31,7 +28,7 @@ public class PessoaServiceImpl implements PessoaService {
     }
 
     @Override
-    public Pessoa salvar(@Valid SalvarPessoaRequestDto data) throws CustomException {
+    public PessoaResponseDTO salvar(@Valid SalvarPessoaRequestDto data) throws CustomException {
         if (Optional.ofNullable(this.pessoaRepository.findByLogin(data.getLogin())).isPresent())
             throw new CustomException(HttpStatus.BAD_REQUEST.value(), "Objeto já existente.");
 
@@ -39,7 +36,7 @@ public class PessoaServiceImpl implements PessoaService {
         EnderecoResponseApiDto enderecoAPI = PessoaUtils.obterEnderecoPorCEP(data.getCep());
         Pessoa newPessoa = PessoaUtils.criarPessoa(data, enderecoAPI, encryptedPassword);
         this.pessoaRepository.save(newPessoa);
-        return newPessoa;
+        return PessoaUtils.criarPessoaResponseDTO(newPessoa);
     }
 
     @Override

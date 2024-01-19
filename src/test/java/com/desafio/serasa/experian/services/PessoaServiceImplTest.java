@@ -1,5 +1,9 @@
 package com.desafio.serasa.experian.services;
 
+import com.desafio.serasa.experian.domain.dtos.AtualizarPessoaRequestDto;
+import com.desafio.serasa.experian.domain.dtos.PessoaFilterDTO;
+import com.desafio.serasa.experian.domain.dtos.PessoaResponseDTO;
+import com.desafio.serasa.experian.domain.dtos.SalvarPessoaRequestDto;
 import com.desafio.serasa.experian.domain.endereco.Endereco;
 import com.desafio.serasa.experian.domain.pessoa.*;
 import com.desafio.serasa.experian.exceptions.CustomException;
@@ -139,11 +143,10 @@ class PessoaServiceImplTest {
         when(pessoaRepository.findByLogin(requestDto.getLogin())).thenReturn(null);
         when(passwordEncoder.encode(requestDto.getPassword())).thenReturn("hashedPassword");
 
-        Pessoa result = pessoaService.salvar(requestDto);
+        PessoaResponseDTO result = pessoaService.salvar(requestDto);
 
         assertNotNull(result);
-        assertEquals(requestDto.getLogin(), result.getLogin());
-        assertEquals(requestDto.getRole(), result.getRole());
+        assertEquals(requestDto.getNome(), result.getNome());
     }
 
     @Test

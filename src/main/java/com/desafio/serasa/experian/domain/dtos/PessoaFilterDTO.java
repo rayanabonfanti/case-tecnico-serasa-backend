@@ -1,4 +1,4 @@
-package com.desafio.serasa.experian.domain.pessoa;
+package com.desafio.serasa.experian.domain.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
